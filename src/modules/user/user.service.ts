@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/database/prisma.service';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dtos/create-user.dto';
-import { LoginUserDto } from './dtos/login-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import * as bcrypt from 'bcrypt';
+import { response } from 'express';
 
 @Injectable()
 export class UserService {
@@ -13,19 +13,27 @@ export class UserService {
     ) { }
 
   public async create(createUserDto: CreateUserDto)  {
+    if(this.findByEmail(createUserDto.email)){
+      throw new BadRequestException({msg: "User Already Exists"})
+    }
+    
     const data = {
       ...createUserDto,
+      pass: await bcrypt.hash(createUserDto.pass, 10)
     };
 
-    data.pass = await bcrypt.hash(data.pass, 10);
+    const createdUser = await this.prisma.user.create({
+      data: {
+        first_name: data.firstName,
+        last_name: data.lastName,
+        company_name: data.companyName,
+        email: data.email,
+        pass: data.pass,
+      }
+    })
+    createdUser.pass = undefined;
 
-    const createdUser = await this.prisma.user.create({data})
-
-    return data;
-  }
-
-  public async authUser(loginUserDto: LoginUserDto) {
-    return `This action returns a user`;
+    return createdUser;
   }
 
   public async findAll() {
@@ -41,6 +49,8 @@ export class UserService {
   }
 
   private async findByEmail(email: string){
-    return 'return id'
+    const user = await this.prisma.user.findUnique({where: {email}})
+
+    return user;
   }
 }
