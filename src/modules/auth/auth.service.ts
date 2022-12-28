@@ -23,7 +23,8 @@ export class AuthService {
         const jwtToken = this.jwtService.sign(payload);
 
         return {
-            acessToken: jwtToken
+            acessToken: jwtToken,
+            sub: payload.sub
         }
     }
 

@@ -1,3 +1,4 @@
 export interface UserToken {
-    acessToken: string
+    acessToken: string,
+    sub: string
 }
