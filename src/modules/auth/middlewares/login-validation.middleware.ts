@@ -14,7 +14,7 @@ import {
   
       const loginRequestBody = new LoginRequestBody();
       loginRequestBody.email = body.email;
-      loginRequestBody.password = body.password;
+      loginRequestBody.pass = body.pass;
   
       const validations = await validate(loginRequestBody);
   
