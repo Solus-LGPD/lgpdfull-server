@@ -13,7 +13,7 @@ export class UserService {
     ) { }
 
   public async create(createUserDto: CreateUserDto)  {
-    if(this.findByEmail(createUserDto.email)){
+    if(!this.findByEmail(createUserDto.email)){
       throw new BadRequestException({msg: "User Already Exists"})
     }
     
@@ -48,7 +48,7 @@ export class UserService {
     return `This action removes a #${id} user`;
   }
 
-  private async findByEmail(email: string){
+  public async findByEmail(email: string){
     const user = await this.prisma.user.findUnique({where: {email}})
 
     return user;
