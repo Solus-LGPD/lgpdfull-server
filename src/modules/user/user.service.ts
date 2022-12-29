@@ -6,6 +6,10 @@ import * as bcrypt from 'bcrypt';
 import { response } from 'express';
 import { SaveDto } from './dtos/save-pass-user.dto';
 import { UpdatePassDto } from './dtos/update-pass.dto';
+import * as generator from 'generate-password';
+import * as nodemailer from 'nodemailer';
+import { emailTemplate } from 'src/helpers/EmailTemplate';
+
 
 @Injectable()
 export class UserService {
@@ -96,12 +100,48 @@ export class UserService {
     }
   }
 
-  async savePass(saveDto: SaveDto) {
+  public async savePass(saveDto: SaveDto) {
     if(!this.findByEmail(saveDto.email)){
-      throw new BadRequestException({msg: "this account doesn't exist"})
+      throw new BadRequestException({msg: "this account doesn't exist"});
     }
     
-    //Envio de e-mail com a nova senha do usuário
+    const newPassword = generator.generate({
+      length: 8,
+      numbers: true,
+      symbols: true,
+      strict: true
+    });
+
+    await this.prisma.user.update({
+      where:{ email: saveDto.email },
+      data:{ pass: await bcrypt.hash(newPassword, 10) }
+    });
+
+    const transport = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port:  465,
+      secure: true,
+      auth:{
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS
+      }
+    })
+    
+    transport.sendMail({
+      from: "Solus LGPD <solusit2022@gmail.com",
+      to: saveDto.email,
+      subject: 'Teste E-mail Para Lead ',
+      html: emailTemplate(newPassword),
+      text: 'Hello World TESTE TESTE TESTE'
+    })
+    .then((response) => {
+      return {
+        msg: "Password sended"
+      }
+    })
+    .catch((err) => {
+        console.log('Erro no envio');
+    })
   }
 
   public async findByEmail(email: string){

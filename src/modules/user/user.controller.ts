@@ -35,6 +35,7 @@ export class UserController {
     return this.userService.updatePassword(updatePassDto);
   }
 
+  @IsPublic()
   @Post('save-password')
   savePass(@Body() saveDto: SaveDto) {
     return this.userService.savePass(saveDto);
