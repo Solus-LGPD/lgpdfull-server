@@ -4,17 +4,18 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import * as bcrypt from 'bcrypt';
 import { response } from 'express';
+import { SaveDto } from './dtos/save-pass-user.dto';
+import { UpdatePassDto } from './dtos/update-pass.dto';
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly prisma: PrismaService
-
-    ) { }
+  ) { }
 
   public async create(createUserDto: CreateUserDto)  {
-    if(!this.findByEmail(createUserDto.email)){
-      throw new BadRequestException({msg: "User Already Exists"})
+    if(this.findByEmail(createUserDto.email)){
+      throw new BadRequestException({msg: "E-mail Already Registered"})
     }
     
     const data = {
@@ -37,15 +38,70 @@ export class UserService {
   }
 
   public async findAll() {
-    return `This action returns all user`;
+    const users = await this.prisma.user.findMany({
+      select: {
+        id: true,
+        first_name: true,
+        company_name: true,
+        is_admin: false
+      }
+    });
+
+    return {
+      ...users
+    }
   }
 
-  public async update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  public async updateEmail(updateUserDto: UpdateUserDto) {
+    await this.prisma.user.update({
+      where: {id: updateUserDto.id},
+      data: {
+        email: updateUserDto.email
+      }
+    });
+
+    return {
+      msg: "E-mail updated"
+    }
   }
 
-  public async remove(id: number) {
-    return `This action removes a #${id} user`;
+  public async updatePassword(updatePassDto: UpdatePassDto) {
+    const user = await this.prisma.user.findUnique({
+      where: {id: updatePassDto.id}
+    });
+    const isPassValid = await bcrypt.compare(updatePassDto.pass, user.pass);
+    if(!isPassValid){
+      throw new BadRequestException({msg: "this account doesn't exist"});
+    }
+
+    await this.prisma.user.update({
+      where: {id: updatePassDto.id},
+      data: {
+        pass: await bcrypt.hash(updatePassDto.newPass, 10)
+      }
+    });
+
+    return {
+      msg: "Password updated"
+    }
+  }
+
+  public async remove(id: string) {
+    await this.prisma.user.delete({
+      where: {id}
+    });
+
+    return {
+      msg: "User Deleted"
+    }
+  }
+
+  async savePass(saveDto: SaveDto) {
+    if(!this.findByEmail(saveDto.email)){
+      throw new BadRequestException({msg: "this account doesn't exist"})
+    }
+    
+    //Envio de e-mail com a nova senha do usuário
   }
 
   public async findByEmail(email: string){
