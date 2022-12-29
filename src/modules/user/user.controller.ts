@@ -11,7 +11,7 @@ import { IsPublic } from '../auth/decorators/is-public.decorator';
 export class UserController {
   constructor(private readonly userService: UserService) {}
   
-  @IsPublic()
+  @IsPublic()//retirar quando for para produção
   @Post('register')
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);

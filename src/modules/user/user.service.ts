@@ -51,9 +51,7 @@ export class UserService {
       }
     });
 
-    return {
-      ...users
-    }
+    return users;
   }
 
   public async updateEmail(updateUserDto: UpdateUserDto) {

@@ -1,34 +1,24 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch } from '@nestjs/common';
 import { DpoService } from './dpo.service';
-import { CreateDpoDto } from './dto/create-dpo.dto';
-import { UpdateDpoDto } from './dto/update-dpo.dto';
+import { CreateDpoDto } from './dtos/create-dpo.dto';
+import { UpdateDpoDto } from './dtos/update-dpo.dto';
 
 @Controller('dpo')
 export class DpoController {
   constructor(private readonly dpoService: DpoService) {}
 
-  @Post()
+  @Post('register')
   create(@Body() createDpoDto: CreateDpoDto) {
     return this.dpoService.create(createDpoDto);
   }
 
-  @Get()
+  @Get('all')
   findAll() {
     return this.dpoService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.dpoService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDpoDto: UpdateDpoDto) {
-    return this.dpoService.update(+id, updateDpoDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.dpoService.remove(+id);
+  @Patch('email')
+  UpdateEmail(@Body() updateDpoDto: UpdateDpoDto){
+    return this.dpoService.updateEmail(updateDpoDto);
   }
 }

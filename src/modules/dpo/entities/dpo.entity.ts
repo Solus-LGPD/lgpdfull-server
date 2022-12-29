@@ -3,5 +3,6 @@ export class Dpo {
     firstName: string;
     lastName: string;
     email: string;
-    actual?: string;
+    userId: string;
+    actual?: boolean;
 }
