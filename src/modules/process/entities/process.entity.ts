@@ -1,1 +1,7 @@
-export class Process {}
+export class Process {
+    id?: string;
+    operator: string;
+    dataFlow: string;
+    controller: string;
+    employeeSector: string;
+}   
