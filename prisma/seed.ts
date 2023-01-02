@@ -5,22 +5,38 @@ const prisma = new PrismaClient()
 
 async function main() {
     const password = await bcrypt.hash(process.env.SEED_TEST_ADMIN, 10);
-    const adminTest = await prisma.user.upsert({
+    const adminTest1 = await prisma.user.upsert({
         create: {
             company_name: 'Solus',
-            email: 'admin@teste.com',
+            email: 'botelhocelso99@gmail.com',
             first_name: 'Solus',
             last_name: 'IT',
             pass: password,
             is_admin: true,
         },
         where: {
-            email: 'admin@teste.com'
+            email: 'botelhocelso99@gmail.com'
         },
         update: {}
     });
-    adminTest.pass = undefined;
-    console.log(adminTest);
+    const adminTest2 = await prisma.user.upsert({
+        create: {
+            company_name: 'Solus',
+            email: 'marvmms@gmail.com',
+            first_name: 'Solus',
+            last_name: 'IT',
+            pass: password,
+            is_admin: true,
+        },
+        where: {
+            email: 'marvmms@gmail.com'
+        },
+        update: {}
+    });
+    adminTest1.pass = undefined;
+    adminTest2.pass = undefined;
+    console.log(adminTest1);
+    console.log(adminTest2);
 }
 main()
   .then(async () => {

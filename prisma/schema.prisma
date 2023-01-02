@@ -12,14 +12,16 @@ datasource db {
 }
 
 model User {
-  id           String  @id @default(cuid())
+  id           String     @id @default(cuid())
   first_name   String
   last_name    String
   company_name String
-  is_admin     Boolean @default(false)
-  email        String  @unique
+  is_admin     Boolean    @default(false)
+  email        String     @unique
   pass         String
   dpo          Dpo[]
+  Process      Process[]
+  Inventory    Inventory[]
 
   @@map("user")
 }
@@ -42,6 +44,7 @@ model Dpo {
 
 model Process {
   id              String   @id @default(cuid())
+  user_id         String   @unique
   dpo_id          String
   created_at      DateTime @default(now())
   updated_at      DateTime
@@ -50,7 +53,8 @@ model Process {
   controller      String
   employee_sector String
 
-  dpo Dpo @relation(fields: [dpo_id], references: [id])
+  dpo  Dpo  @relation(fields: [dpo_id], references: [id])
+  user User @relation(fields: [user_id], references: [id])
 
   @@map("process")
 }
@@ -58,6 +62,7 @@ model Process {
 model Inventory {
   id           String   @id @default(cuid())
   dpo_id       String
+  user_id      String   @unique
   created_at   DateTime @default(now())
   updated_at   DateTime
   reference_id String   @unique
@@ -65,6 +70,7 @@ model Inventory {
   controller   String
   operator     String
 
+  user                  User                  @relation(fields: [user_id], references: [id])
   dpo                   Dpo                   @relation(fields: [dpo_id], references: [id])
   data_treatment_info   DataTreatmentInfo?
   lyfe_cycle            LyfeCycle?
