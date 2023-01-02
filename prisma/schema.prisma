@@ -12,13 +12,15 @@ datasource db {
 }
 
 model User {
-  id           String     @id @default(cuid())
+  id           String      @id @default(cuid())
   first_name   String
   last_name    String
   company_name String
-  is_admin     Boolean    @default(false)
-  email        String     @unique
+  is_admin     Boolean     @default(false)
+  email        String      @unique
   pass         String
+  state        String?
+  status       Boolean     @default(true)
   dpo          Dpo[]
   Process      Process[]
   Inventory    Inventory[]
