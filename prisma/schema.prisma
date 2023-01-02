@@ -46,7 +46,7 @@ model Dpo {
 
 model Process {
   id              String   @id @default(cuid())
-  user_id         String   @unique
+  user_id         String   
   dpo_id          String
   created_at      DateTime @default(now())
   updated_at      DateTime
@@ -64,7 +64,7 @@ model Process {
 model Inventory {
   id           String   @id @default(cuid())
   dpo_id       String
-  user_id      String   @unique
+  user_id      String   
   created_at   DateTime @default(now())
   updated_at   DateTime
   reference_id String   @unique
