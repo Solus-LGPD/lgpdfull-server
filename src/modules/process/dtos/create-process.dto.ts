@@ -8,6 +8,10 @@ import {
 export class CreateProcessDto {
     @IsNotEmpty()
     @IsString()
+    userId:string;
+
+    @IsNotEmpty()
+    @IsString()
     dpoId:string;
 
     @IsNotEmpty()

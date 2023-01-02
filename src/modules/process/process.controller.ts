@@ -1,7 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
 import { ProcessService } from './process.service';
 import { CreateProcessDto } from './dtos/create-process.dto';
-import { UpdateProcessDto } from './dtos/update-process.dto';
+import { FindProcessDto } from './dtos/find-process.dto';
+import { HandleProcessDto } from './dtos/handle-process.dto';
 
 @Controller('process')
 export class ProcessController {
@@ -13,12 +14,17 @@ export class ProcessController {
   }
 
   @Post('all')
-  findAll(@Body() updateProcessDto: UpdateProcessDto) {
-    return this.processService.findAll();
+  findAll(@Body() findProcessDto: FindProcessDto) {
+    return this.processService.findAll(findProcessDto);
   }
 
   @Put('dataFlow')
-  update(@Body() updateProcessDto: UpdateProcessDto){
+  update(@Body() updateProcessDto: HandleProcessDto){
     return this.processService.update(updateProcessDto);
+  }
+
+  @Delete('delete')
+  delete(@Body() deleteProcessDto: HandleProcessDto){
+    return this.processService.remove(deleteProcessDto);
   }
 }
