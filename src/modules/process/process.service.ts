@@ -49,7 +49,7 @@ export class ProcessService {
 
     const date = new Date();
 
-    const updatedProcess = await this.prisma.process.update({
+    await this.prisma.process.update({
       where: {
         id: data.id
       },

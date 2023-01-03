@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateInventoryDto } from './dto/create-inventory.dto';
-import { UpdateInventoryDto } from './dto/update-inventory.dto';
+import { FindInventoryDto } from './dto/find-inventory.dto';
+import { HandleInventoryDto } from './dto/handle-inventory.dto';
 
 @Injectable()
 export class InventoryService {
@@ -35,19 +36,97 @@ export class InventoryService {
     return createdInventory;
   }
 
-  findAll() {
-    return `This action returns all inventory`;
+  public async findAll(findInventoryDto: FindInventoryDto) {
+    const docs = this.prisma.inventory.findMany({
+      where: {
+        user_id: findInventoryDto.userId
+      }
+    });
+
+    return docs;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} inventory`;
+  //Donwload do PDF
+  /*
+  downloadOne(id: string) {
+    return `This action returns a inventory`;
+  }*/
+
+  public async update(updateInventoryDto: HandleInventoryDto) {
+    const data = {
+      ...updateInventoryDto
+    }
+
+    const date = new Date();
+
+    await this.prisma.inventory.update({
+      where: {
+        id: data.id
+      },
+      data: {
+        updated_at: new Date(date.getUTCDate()),
+        dpo_name: data.dpoName || undefined,
+        controller: data.dpoName || undefined,
+        operator: data.dpoName || undefined
+      }
+    });
+
+    return {
+      msg: 'Process Updated'
+    };
   }
 
-  update(id: number, updateInventoryDto: UpdateInventoryDto) {
-    return `This action updates a #${id} inventory`;
-  }
+  public async remove(deleteInventoryDto: HandleInventoryDto) {
+    await this.prisma.lyfeCycle.delete({
+      where: {
+        invt_id: deleteInventoryDto.id
+      }
+    });
 
-  remove(id: number) {
-    return `This action removes a #${id} inventory`;
+    await this.prisma.dataFlowDesc.delete({
+      where: {
+        invt_id: deleteInventoryDto.id
+      }
+    });
+
+    await this.prisma.dataScope.delete({
+      where: {
+        invt_id: deleteInventoryDto.id
+      }
+    });
+
+    await this.prisma.dataFinality.delete({
+      where: {
+        invt_id: deleteInventoryDto.id
+      }
+    });
+
+    await this.prisma.dataTreatmentInfo.delete({
+      where: {
+        invt_id: deleteInventoryDto.id
+      }
+    });
+
+    await this.prisma.dataShare.delete({
+      where: {
+        invt_id: deleteInventoryDto.id
+      }
+    });
+
+    await this.prisma.personalDataCategory.delete({
+      where: {
+        invt_id: deleteInventoryDto.id
+      }
+    });
+
+    await this.prisma.inventory.delete({
+      where: {
+        id: deleteInventoryDto.id
+      }
+    });
+
+    return {
+      msg: 'Inventory Deleted'
+    };
   }
 }
