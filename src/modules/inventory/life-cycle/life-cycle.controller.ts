@@ -1,4 +1,4 @@
-import { Controller, Put, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Put, Post, Body } from '@nestjs/common';
 import { LifeCycleService } from './life-cycle.service';
 import { CreateLifeCycleDto } from './dtos/create-life-cycle.dto';
 import { UpdateLifeCycleDto } from './dtos/update-life-cycle.dto';
