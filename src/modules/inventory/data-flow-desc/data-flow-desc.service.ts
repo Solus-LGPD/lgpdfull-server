@@ -1,26 +1,65 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDataFlowDescDto } from './dto/create-data-flow-desc.dto';
-import { UpdateDataFlowDescDto } from './dto/update-data-flow-desc.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateDataFlowDescDto } from './dtos/create-data-flow-desc.dto';
+import { UpdateDataFlowDescDto } from './dtos/update-data-flow-desc.dto';
 
 @Injectable()
 export class DataFlowDescService {
-  create(createDataFlowDescDto: CreateDataFlowDescDto) {
-    return 'This action adds a new dataFlowDesc';
+  constructor(
+    private readonly prisma: PrismaService
+  ){}
+
+  public async create(createDataFlowDescDto: CreateDataFlowDescDto) {
+    const data = {
+      ...createDataFlowDescDto
+    }
+
+    const createdDataFlowDesc = await this.prisma.dataFlowDesc.create({
+      data: {
+        invt_id: data.invtId,
+        collect: data.collect,
+        Store: data.store,
+        use: data.use,
+        share: data.share,
+        destroy: data.destroy
+      }
+    });
+
+    return createdDataFlowDesc;
   }
 
-  findAll() {
-    return `This action returns all dataFlowDesc`;
-  }
+  public async update(updateDataFlowDescDto: UpdateDataFlowDescDto) {
+    const data = {
+      ...updateDataFlowDescDto
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} dataFlowDesc`;
-  }
+    const date = new Date();
 
-  update(id: number, updateDataFlowDescDto: UpdateDataFlowDescDto) {
-    return `This action updates a #${id} dataFlowDesc`;
-  }
 
-  remove(id: number) {
-    return `This action removes a #${id} dataFlowDesc`;
+    await this.prisma.dataFlowDesc.update({
+      where: {
+        id: data.id
+      },
+      data: {
+        collect: data.collect || undefined,
+        Store: data.store || undefined,
+        use: data.use || undefined,
+        share: data.share || undefined,
+        destroy: data.destroy || undefined
+      }
+    });
+    
+    await this.prisma.inventory.update({
+      where: {
+        id: data.invtId
+      },
+      data: {
+        updated_at: new Date(date.getUTCDate())
+      }
+    })
+
+    return {
+      msg: 'Process Updated'
+    };
   }
 }
