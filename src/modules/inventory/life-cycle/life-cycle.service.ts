@@ -1,26 +1,65 @@
 import { Injectable } from '@nestjs/common';
-import { CreateLifeCycleDto } from './dto/create-life-cycle.dto';
-import { UpdateLifeCycleDto } from './dto/update-life-cycle.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateLifeCycleDto } from './dtos/create-life-cycle.dto';
+import { UpdateLifeCycleDto } from './dtos/update-life-cycle.dto';
 
 @Injectable()
 export class LifeCycleService {
-  create(createLifeCycleDto: CreateLifeCycleDto) {
-    return 'This action adds a new lifeCycle';
+  constructor(
+    private readonly prisma: PrismaService
+  ){}
+
+  public async create(createLifeCycleDto: CreateLifeCycleDto) {
+    const data = {
+      ...createLifeCycleDto
+    }
+
+    const createdInventory = await this.prisma.lyfeCycle.create({
+      data: {
+        invt_id: data.invtId,
+        collect: data.collect,
+        store: data.store,
+        use: data.use,
+        share: data.share,
+        destroy: data.destroy
+      }
+    });
+
+    return createdInventory;
   }
 
-  findAll() {
-    return `This action returns all lifeCycle`;
-  }
+  public async update(updateLifeCycleDto: UpdateLifeCycleDto) {
+    const data = {
+      ...updateLifeCycleDto
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} lifeCycle`;
-  }
+    const date = new Date();
 
-  update(id: number, updateLifeCycleDto: UpdateLifeCycleDto) {
-    return `This action updates a #${id} lifeCycle`;
-  }
 
-  remove(id: number) {
-    return `This action removes a #${id} lifeCycle`;
+    await this.prisma.lyfeCycle.update({
+      where: {
+        id: data.id
+      },
+      data: {
+        collect: data.collect || undefined,
+        store: data.store || undefined,
+        use: data.use || undefined,
+        share: data.share || undefined,
+        destroy: data.destroy || undefined
+      }
+    });
+    
+    await this.prisma.inventory.update({
+      where: {
+        id: data.invtId
+      },
+      data: {
+        updated_at: new Date(date.getUTCDate())
+      }
+    })
+
+    return {
+      msg: 'Process Updated'
+    };
   }
 }

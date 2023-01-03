@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateInventoryDto } from './dto/create-inventory.dto';
-import { FindInventoryDto } from './dto/find-inventory.dto';
-import { HandleInventoryDto } from './dto/handle-inventory.dto';
+import { CreateInventoryDto } from './dtos/create-inventory.dto';
+import { FindInventoryDto } from './dtos/find-inventory.dto';
+import { HandleInventoryDto } from './dtos/handle-inventory.dto';
 
 @Injectable()
 export class InventoryService {
