@@ -46,7 +46,7 @@ model Dpo {
 
 model Process {
   id              String   @id @default(cuid())
-  user_id         String   
+  user_id         String
   dpo_id          String
   created_at      DateTime @default(now())
   updated_at      DateTime
@@ -64,7 +64,7 @@ model Process {
 model Inventory {
   id           String   @id @default(cuid())
   dpo_id       String
-  user_id      String   
+  user_id      String
   created_at   DateTime @default(now())
   updated_at   DateTime
   reference_id String   @unique
@@ -86,7 +86,7 @@ model Inventory {
 }
 
 model LyfeCycle {
-  id      Int     @id @default(autoincrement())
+  id      String  @id @default(cuid())
   invt_id String  @unique
   collect Boolean
   store   Boolean
@@ -100,10 +100,10 @@ model LyfeCycle {
 }
 
 model DataFlowDesc {
-  id      Int    @id @default(autoincrement())
+  id      String @id @default(cuid())
   invt_id String @unique
   collect String
-  Store   String
+  store   String
   use     String
   share   String
   destroy String
@@ -164,7 +164,7 @@ model DataShare {
 }
 
 model PersonalDataCategory {
-  id                String  @id @unique
+  id                String  @id @default(cuid())
   invt_id           String  @unique
   personal_data     String?
   financial_data    String?
