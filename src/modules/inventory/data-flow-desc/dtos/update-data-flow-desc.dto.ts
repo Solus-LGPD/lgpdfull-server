@@ -9,7 +9,7 @@ import {
 export class UpdateDataFlowDescDto extends PartialType(CreateDataFlowDescDto) {
     @IsNotEmpty()
     @IsNumber()
-    id:number;
+    id:string;
 
     @IsNotEmpty()
     @IsString()

@@ -18,7 +18,7 @@ export class DataFlowDescService {
       data: {
         invt_id: data.invtId,
         collect: data.collect,
-        Store: data.store,
+        store: data.store,
         use: data.use,
         share: data.share,
         destroy: data.destroy
@@ -42,7 +42,7 @@ export class DataFlowDescService {
       },
       data: {
         collect: data.collect || undefined,
-        Store: data.store || undefined,
+        store: data.store || undefined,
         use: data.use || undefined,
         share: data.share || undefined,
         destroy: data.destroy || undefined

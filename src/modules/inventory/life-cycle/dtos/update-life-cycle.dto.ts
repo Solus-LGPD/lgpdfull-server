@@ -9,7 +9,7 @@ import {
 export class UpdateLifeCycleDto extends PartialType(CreateLifeCycleDto) {
     @IsNotEmpty()
     @IsNumber()
-    id:number;
+    id:string;
 
     @IsNotEmpty()
     @IsString()
