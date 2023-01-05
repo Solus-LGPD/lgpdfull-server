@@ -57,13 +57,20 @@ export class DpoService {
     return dpos;
   }
 
-  public async updateEmail(updateDpoDto: UpdateDpoDto) {
+  public async updateData(updateDpoDto: UpdateDpoDto) {
+    const data = {
+      ...updateDpoDto
+    }
+    
     await this.prisma.dpo.update({
       where: {
-        id: updateDpoDto.id
+        id: data.id
       },
       data:{
-        email: updateDpoDto.email
+        first_name: data.firstName || undefined,
+        last_name: data.lastName || undefined,
+        email: data.email || undefined,
+        user_id: data.userId || undefined
       }
     });
 

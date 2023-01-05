@@ -20,6 +20,6 @@ export class DpoController {
 
   @Put('update')
   UpdateEmail(@Body() updateDpoDto: UpdateDpoDto){
-    return this.dpoService.updateEmail(updateDpoDto);
+    return this.dpoService.updateData(updateDpoDto);
   }
 }
