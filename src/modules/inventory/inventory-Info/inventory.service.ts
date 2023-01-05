@@ -15,7 +15,7 @@ export class InventoryService {
       ...createInventoryDto
     }
 
-    const date = new Date()
+    const now = new Date()
 
     const countInventory = await this.prisma.user.count();
 
@@ -25,7 +25,7 @@ export class InventoryService {
       data: {
         user_id: data.userId,
         dpo_id: data.dpoId,
-        updated_at: new Date(date.getUTCDate()),
+        updated_at: now.toLocaleString(),
         dpo_name: data.dpoName,
         controller: data.controller,
         operator: data.operator,
@@ -57,14 +57,14 @@ export class InventoryService {
       ...updateInventoryDto
     }
 
-    const date = new Date();
+    const now = new Date();
 
     await this.prisma.inventory.update({
       where: {
         id: data.id
       },
       data: {
-        updated_at: new Date(date.getUTCDate()),
+        updated_at: now.toLocaleString(),
         dpo_name: data.dpoName || undefined,
         controller: data.dpoName || undefined,
         operator: data.dpoName || undefined

@@ -40,7 +40,7 @@ export class PersonalDataCategoryService {
       ...updatePersonalDataCategoryDto
     }
 
-    const date = new Date();
+    const now = new Date();
 
 
     await this.prisma.personalDataCategory.update({
@@ -68,7 +68,7 @@ export class PersonalDataCategoryService {
         id: data.invtId
       },
       data: {
-        updated_at: new Date(date.getUTCDate())
+        updated_at: now.toLocaleString()
       }
     })
 

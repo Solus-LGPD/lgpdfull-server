@@ -33,7 +33,7 @@ export class DataFinalityService {
       ...updateDataFinalityDto
     }
 
-    const date = new Date();
+    const now = new Date();
 
 
     await this.prisma.dataFinality.update({
@@ -54,7 +54,7 @@ export class DataFinalityService {
         id: data.invtId
       },
       data: {
-        updated_at: new Date(date.getUTCDate())
+        updated_at: now.toLocaleString()
       }
     })
 

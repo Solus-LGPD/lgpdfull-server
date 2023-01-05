@@ -33,7 +33,7 @@ export class DataTreatmentService {
       ...updateDataTreatmentDto
     }
 
-    const date = new Date();
+    const now = new Date();
 
 
     await this.prisma.dataTreatmentInfo.update({
@@ -54,7 +54,7 @@ export class DataTreatmentService {
         id: data.invtId
       },
       data: {
-        updated_at: new Date(date.getUTCDate())
+        updated_at: now.toLocaleString()
       }
     })
 

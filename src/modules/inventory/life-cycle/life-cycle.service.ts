@@ -33,7 +33,7 @@ export class LifeCycleService {
       ...updateLifeCycleDto
     }
 
-    const date = new Date();
+    const now = new Date();
 
 
     await this.prisma.lyfeCycle.update({
@@ -54,7 +54,7 @@ export class LifeCycleService {
         id: data.invtId
       },
       data: {
-        updated_at: new Date(date.getUTCDate())
+        updated_at: now.toLocaleString()
       }
     })
 

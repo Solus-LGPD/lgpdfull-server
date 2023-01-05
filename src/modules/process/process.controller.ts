@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, HttpStatus, HttpCode } from '@nestjs/common';
 import { ProcessService } from './process.service';
 import { CreateProcessDto } from './dtos/create-process.dto';
 import { FindProcessDto } from './dtos/find-process.dto';
@@ -14,6 +14,7 @@ export class ProcessController {
   }
 
   @Post('all')
+  @HttpCode(HttpStatus.OK)
   findAll(@Body() findProcessDto: FindProcessDto) {
     return this.processService.findAll(findProcessDto);
   }

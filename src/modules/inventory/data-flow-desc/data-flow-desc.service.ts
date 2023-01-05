@@ -33,7 +33,7 @@ export class DataFlowDescService {
       ...updateDataFlowDescDto
     }
 
-    const date = new Date();
+    const now = new Date();
 
 
     await this.prisma.dataFlowDesc.update({
@@ -54,7 +54,7 @@ export class DataFlowDescService {
         id: data.invtId
       },
       data: {
-        updated_at: new Date(date.getUTCDate())
+        updated_at: now.toLocaleString()
       }
     })
 
