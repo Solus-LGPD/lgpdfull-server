@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateDpoDto } from './dtos/create-dpo.dto';
+import { FindDpoDto } from './dtos/find-dpo.dto';
 import { UpdateDpoDto } from './dtos/update-dpo.dto';
 
 @Injectable()
@@ -40,8 +41,11 @@ export class DpoService {
     })
   }
 
-  public async findAll() {
+  public async findAll(findDpoDto: FindDpoDto) {
     const dpos = await this.prisma.dpo.findMany({
+      where: {
+        user_id: findDpoDto.userId
+      },
       select: {
         id: true,
         first_name: true,
