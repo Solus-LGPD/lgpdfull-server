@@ -3,7 +3,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import * as bcrypt from 'bcrypt';
-import { response } from 'express';
 import { SaveDto } from './dtos/save-pass-user.dto';
 import { UpdatePassDto } from './dtos/update-pass.dto';
 import * as generator from 'generate-password';
@@ -21,10 +20,17 @@ export class UserService {
     if(this.findByEmail(createUserDto.email)){
       throw new BadRequestException({msg: "E-mail Already Registered"})
     }
+
+    const password = generator.generate({
+      length: 8,
+      numbers: true,
+      symbols: true,
+      strict: true
+    });
     
     const data = {
       ...createUserDto,
-      pass: await bcrypt.hash(createUserDto.pass, 10)
+      pass: await bcrypt.hash(password, 10)
     };
 
     const createdUser = await this.prisma.user.create({
@@ -36,7 +42,34 @@ export class UserService {
         pass: data.pass,
       }
     })
+    
     createdUser.pass = undefined;
+
+    const transport = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port:  465,
+      secure: true,
+      auth:{
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS
+      }
+    })
+    
+    transport.sendMail({
+      from: "Solus LGPD <solusit2022@gmail.com",
+      to: createdUser.email,
+      subject: 'Teste E-mail Para Lead ',
+      html: password,
+      text: 'Hello World TESTE TESTE TESTE'
+    })
+    .then((response) => {
+      return {
+        msg: "Password sended"
+      }
+    })
+    .catch((err) => {
+        console.log('Erro no envio');
+    })
 
     return createdUser;
   }
@@ -55,10 +88,17 @@ export class UserService {
   }
 
   public async updateEmail(updateUserDto: UpdateUserDto) {
+    const data = {
+      ...updateUserDto
+    }
+    
     await this.prisma.user.update({
-      where: {id: updateUserDto.id},
+      where: {id: data.id},
       data: {
-        email: updateUserDto.email
+        email: data.email || undefined,
+        first_name: data.firstName || undefined,
+        last_name: data.lastName || undefined,
+        company_name: data.companyName || undefined
       }
     });
 
