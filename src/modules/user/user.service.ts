@@ -42,7 +42,7 @@ export class UserService {
         pass: data.pass,
       }
     })
-    
+
     createdUser.pass = undefined;
 
     const transport = nodemailer.createTransport({
@@ -87,7 +87,7 @@ export class UserService {
     return users;
   }
 
-  public async updateEmail(updateUserDto: UpdateUserDto) {
+  public async updateUserData(updateUserDto: UpdateUserDto) {
     const data = {
       ...updateUserDto
     }
