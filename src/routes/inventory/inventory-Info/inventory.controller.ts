@@ -8,12 +8,12 @@ import { FindInventoryDto } from './dtos/find-inventory.dto';
 export class InventoryController {
   constructor(private readonly inventoryService: InventoryService) {}
 
-  @Post()
+  @Post('register')
   create(@Body() createInventoryDto: CreateInventoryDto) {
     return this.inventoryService.create(createInventoryDto);
   }
 
-  @Post()
+  @Post('all')
   findAll(@Body() findInventoryDto: FindInventoryDto) {
     return this.inventoryService.findAll(findInventoryDto);
   }

@@ -59,7 +59,7 @@ export class DataTreatmentService {
     })
 
     return {
-      msg: 'Process Updated'
+      msg: 'Updated'
     };
   }
 }

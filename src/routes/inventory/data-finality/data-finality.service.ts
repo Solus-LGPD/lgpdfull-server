@@ -59,7 +59,7 @@ export class DataFinalityService {
     })
 
     return {
-      msg: 'Process Updated'
+      msg: 'Updated'
     };
   }
 }

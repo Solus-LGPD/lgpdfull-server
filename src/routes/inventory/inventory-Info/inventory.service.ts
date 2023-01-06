@@ -17,7 +17,7 @@ export class InventoryService {
 
     const now = new Date()
 
-    const countInventory = await this.prisma.user.count();
+    const countInventory = await this.prisma.user.count() + 1;
 
     const referenceId = data.employeeSector + '-' + countInventory;
 
@@ -72,7 +72,7 @@ export class InventoryService {
     });
 
     return {
-      msg: 'Process Updated'
+      msg: 'Updated'
     };
   }
 

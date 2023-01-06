@@ -59,7 +59,7 @@ export class DataFlowDescService {
     })
 
     return {
-      msg: 'Process Updated'
+      msg: 'Updated'
     };
   }
 }

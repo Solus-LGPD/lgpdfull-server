@@ -63,7 +63,7 @@ export class ProcessService {
     });
 
     return {
-      msg: 'Process Updated'
+      msg: 'Updated'
     };
   }
 

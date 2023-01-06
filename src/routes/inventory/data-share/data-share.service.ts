@@ -52,7 +52,7 @@ export class DataShareService {
     })
 
     return {
-      msg: 'Process Updated'
+      msg: 'Updated'
     };
   }
 }

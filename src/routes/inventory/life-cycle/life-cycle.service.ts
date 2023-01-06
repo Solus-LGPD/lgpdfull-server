@@ -59,7 +59,7 @@ export class LifeCycleService {
     })
 
     return {
-      msg: 'Process Updated'
+      msg: 'Updated'
     };
   }
 }

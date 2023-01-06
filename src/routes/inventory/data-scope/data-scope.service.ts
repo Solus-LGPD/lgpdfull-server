@@ -52,7 +52,7 @@ export class DataScopeService {
     })
 
     return {
-      msg: 'Process Updated'
+      msg: 'Updated'
     };
   }
 }

@@ -73,7 +73,7 @@ export class PersonalDataCategoryService {
     })
 
     return {
-      msg: 'Process Updated'
+      msg: 'Updated'
     };
   }
 }
