@@ -1,8 +1,8 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { IsPublic } from 'src/modules/auth/decorators/is-public.decorator';
-import { CurrentUser } from 'src/modules/auth/decorators/current-user.decorator';
-import { User } from 'src/modules/user/entities/user.entity';
+import { IsPublic } from 'src/routes/auth/decorators/is-public.decorator';
+import { CurrentUser } from 'src/routes/auth/decorators/current-user.decorator';
+import { User } from 'src/routes/user/entities/user.entity';
 
 @Controller()
 export class AppController {
