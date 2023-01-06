@@ -47,7 +47,7 @@ export class DataScopeService {
         id: data.invtId
       },
       data: {
-        updated_at: now.toLocaleString()
+        updated_at: new Date(now.toLocaleString())
       }
     })
 

@@ -19,7 +19,7 @@ export class ProcessController {
     return this.processService.findAll(findProcessDto);
   }
 
-  @Put('dataFlow')
+  @Put('update')
   update(@Body() updateProcessDto: HandleProcessDto){
     return this.processService.update(updateProcessDto);
   }

@@ -25,7 +25,7 @@ export class ProcessService {
         data_flow: data.dataFlow,
         operator: data.operator,
         employee_sector: data.employeeSector,
-        updated_at: now.toLocaleString()
+        updated_at: new Date(now.toLocaleString())
       }
     })
 
@@ -54,7 +54,7 @@ export class ProcessService {
         id: data.id
       },
       data: {
-        updated_at: now.toLocaleDateString(),
+        updated_at: new Date(now.toLocaleString()),
         controller: data.controller || undefined,
         data_flow: data.dataFlow || undefined,
         employee_sector: data.employeeSector || undefined,
