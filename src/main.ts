@@ -8,6 +8,10 @@ async function bootstrap() {
   
   app.use(helmet());
 
+  app.enableCors({
+    origin: '*' //Colocar o Domínio do Front-End quando for para produção
+  });
+
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
