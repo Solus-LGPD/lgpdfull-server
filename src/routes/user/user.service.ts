@@ -7,7 +7,8 @@ import { SaveDto } from './dtos/save-pass-user.dto';
 import { UpdatePassDto } from './dtos/update-pass.dto';
 import * as generator from 'generate-password';
 import * as nodemailer from 'nodemailer';
-import { emailTemplate } from 'src/helpers/EmailTemplate';
+import { sendSavePasswordEmailTemplate } from 'src/helpers/SendSavePasswordTemplate';
+import { sendPasswordEmailTemplate } from 'src/helpers/SendPasswordTemplate';
 
 
 @Injectable()
@@ -59,7 +60,7 @@ export class UserService {
       from: "Solus LGPD <solusit2022@gmail.com",
       to: createdUser.email,
       subject: 'Teste E-mail Para Lead ',
-      html: password,
+      html: sendPasswordEmailTemplate(data.pass, createdUser.email),
       text: 'Hello World TESTE TESTE TESTE'
     })
     .then((response) => {
@@ -169,7 +170,7 @@ export class UserService {
       from: "Solus LGPD <solusit2022@gmail.com",
       to: saveDto.email,
       subject: 'Teste E-mail Para Lead ',
-      html: emailTemplate(newPassword),
+      html:sendSavePasswordEmailTemplate(newPassword),
       text: 'Hello World TESTE TESTE TESTE'
     })
     .then((response) => {
