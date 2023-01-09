@@ -18,7 +18,7 @@ export class UserService {
   ) { }
 
   public async create(createUserDto: CreateUserDto)  {
-    if(this.findByEmail(createUserDto.email)){
+    if(await this.findByEmail(createUserDto.email)){
       throw new BadRequestException({msg: "E-mail Already Registered"})
     }
 
@@ -140,7 +140,9 @@ export class UserService {
   }
 
   public async savePass(saveDto: SaveDto) {
-    if(!this.findByEmail(saveDto.email)){
+    const user = await this.findByEmail(saveDto.email);
+
+    if(!user){
       throw new BadRequestException({msg: "this account doesn't exist"});
     }
     
@@ -152,7 +154,7 @@ export class UserService {
     });
 
     await this.prisma.user.update({
-      where:{ email: saveDto.email },
+      where:{ email: user.email },
       data:{ pass: await bcrypt.hash(newPassword, 10) }
     });
 
@@ -168,7 +170,7 @@ export class UserService {
     
     transport.sendMail({
       from: "Solus LGPD <solusit2022@gmail.com",
-      to: saveDto.email,
+      to: user.email,
       subject: 'Teste E-mail Para Lead ',
       html:sendSavePasswordEmailTemplate(newPassword),
       text: 'Hello World TESTE TESTE TESTE'
@@ -179,7 +181,8 @@ export class UserService {
       }
     })
     .catch((err) => {
-        console.log('Erro no envio');
+        console.log('Erro no envio'); // Retirar para produção
+        //throw new BadRequestException({msg: "E-mail sending failed"});
     })
   }
 
