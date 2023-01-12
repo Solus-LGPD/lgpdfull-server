@@ -10,3 +10,176 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id           String      @id @default(cuid())
+  first_name   String
+  last_name    String
+  company_name String
+  is_admin     Boolean     @default(false)
+  email        String      @unique
+  pass         String
+  state        String?
+  status       Boolean     @default(true)
+  dpo          Dpo[]
+  Process      Process[]
+  Inventory    Inventory[]
+
+  @@map("user")
+}
+
+model Dpo {
+  id         String      @id @default(cuid())
+  first_name String
+  last_name  String
+  actual     Boolean     @default(true)
+  email      String
+  created_at DateTime    @default(now())
+  user_id    String
+  process    Process[]
+  inventory  Inventory[]
+
+  user User @relation(fields: [user_id], references: [id])
+
+  @@map("dpo")
+}
+
+model Process {
+  id              String   @id @default(cuid())
+  user_id         String
+  dpo_id          String
+  created_at      DateTime @default(now())
+  updated_at      DateTime
+  operator        String
+  data_flow       String
+  controller      String
+  employee_sector String
+
+  dpo  Dpo  @relation(fields: [dpo_id], references: [id])
+  user User @relation(fields: [user_id], references: [id])
+
+  @@map("process")
+}
+
+model Inventory {
+  id           String   @id @default(cuid())
+  dpo_id       String
+  user_id      String
+  created_at   DateTime @default(now())
+  updated_at   DateTime
+  reference_id String   @unique
+  dpo_name     String
+  controller   String
+  operator     String
+
+  user                  User                  @relation(fields: [user_id], references: [id])
+  dpo                   Dpo                   @relation(fields: [dpo_id], references: [id])
+  data_treatment_info   DataTreatmentInfo?
+  lyfe_cycle            LyfeCycle?
+  data_flowdesc         DataFlowDesc?
+  data_scope            DataScope?
+  data_finality         DataFinality?
+  data_share            DataShare?
+  persona_data_category PersonalDataCategory?
+
+  @@map("inventory")
+}
+
+model LyfeCycle {
+  id      String  @id @default(cuid())
+  invt_id String  @unique
+  collect Boolean
+  store   Boolean
+  use     Boolean
+  share   Boolean
+  destroy Boolean
+
+  inventory Inventory @relation(fields: [invt_id], references: [id])
+
+  @@map("lyfe_cycle")
+}
+
+model DataFlowDesc {
+  id      String @id @default(cuid())
+  invt_id String @unique
+  collect String
+  store   String
+  use     String
+  share   String
+  destroy String
+
+  inventory Inventory @relation(fields: [invt_id], references: [id])
+
+  @@map("data_flow_desc")
+}
+
+model DataScope {
+  id              String @id @default(cuid())
+  invt_id         String @unique
+  geographic_area String
+  source          String
+
+  inventory Inventory @relation(fields: [invt_id], references: [id])
+
+  @@map("data_scope")
+}
+
+model DataFinality {
+  id               String @id @default(cuid())
+  invt_id          String @unique
+  case             String
+  purpose          String
+  goals            String
+  expected_profits String
+  legal_forecast   String
+
+  inventory Inventory @relation(fields: [invt_id], references: [id])
+
+  @@map("data_finality")
+}
+
+model DataTreatmentInfo {
+  id                    String  @id @default(cuid())
+  invt_id               String  @unique
+  frequency             String
+  quantity              Int
+  category_info         String
+  data_under_age        Boolean
+  data_vulnerable_group Boolean
+
+  inventory Inventory @relation(fields: [invt_id], references: [id])
+
+  @@map("data_treatment_info")
+}
+
+model DataShare {
+  id          String @id @default(cuid())
+  invt_id     String @unique
+  name        String
+  description String
+
+  inventory Inventory @relation(fields: [invt_id], references: [id])
+
+  @@map("data_share")
+}
+
+model PersonalDataCategory {
+  id                String  @id @default(cuid())
+  invt_id           String  @unique
+  personal_data     String?
+  financial_data    String?
+  characater_data   String?
+  habits_data       String?
+  psicological_data String?
+  family_data       String?
+  leisure_data      String?
+  association_data  String?
+  legal_data        String?
+  consunption_data  String?
+  residential_data  String?
+  education_data    String?
+
+  inventory Inventory @relation(fields: [invt_id], references: [id])
+
+  @@map("personal_data_category")
+}
