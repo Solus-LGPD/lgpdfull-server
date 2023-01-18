@@ -59,9 +59,9 @@ export class UserService {
     transport.sendMail({
       from: "Solus LGPD <solusit2022@gmail.com",
       to: createdUser.email,
-      subject: 'Teste E-mail Para Lead ',
+      subject: 'Senha de acesso ao sistema LGPDFull',
       html: sendPasswordEmailTemplate(data.pass, createdUser.email),
-      text: 'Hello World TESTE TESTE TESTE'
+      text: `Nova senha: ${password}`
     })
     .then((response) => {
       return {
@@ -104,7 +104,7 @@ export class UserService {
     });
 
     return {
-      msg: "E-mail updated"
+      msg: "Dados foram atualizados"
     }
   }
 
@@ -114,7 +114,7 @@ export class UserService {
     });
     const isPassValid = await bcrypt.compare(updatePassDto.pass, user.pass);
     if(!isPassValid){
-      throw new BadRequestException({msg: "this account doesn't exist"});
+      throw new BadRequestException({msg: "Está conta não existe"});
     }
 
     await this.prisma.user.update({
@@ -171,9 +171,9 @@ export class UserService {
     transport.sendMail({
       from: "Solus LGPD <solusit2022@gmail.com",
       to: user.email,
-      subject: 'Teste E-mail Para Lead ',
+      subject: 'Senha de acesso ao Sistema LGPDFull',
       html:sendSavePasswordEmailTemplate(newPassword),
-      text: 'Hello World TESTE TESTE TESTE'
+      text: `Nova senha: ${newPassword}`
     })
     .then((response) => {
       return {

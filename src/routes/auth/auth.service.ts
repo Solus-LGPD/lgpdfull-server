@@ -24,7 +24,8 @@ export class AuthService {
 
         return {
             acessToken: jwtToken,
-            sub: payload.sub
+            sub: payload.sub,
+            ...user
         }
     }
 
@@ -42,6 +43,6 @@ export class AuthService {
             }
         }
 
-        throw new Error('Email address or password is incorrect.');
+        throw new Error('Email ou senha estão incorretos.');
     }
 }
