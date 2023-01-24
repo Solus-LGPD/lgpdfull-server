@@ -13,18 +13,14 @@ export class CreateDpoDto {
 
     @IsNotEmpty()
     @IsString()
-    firstName: string;
+    name: string;
 
     @IsNotEmpty()
     @IsString()
-    lastName: string;
+    socialName: string;
 
     @IsNotEmpty()
     @IsString()
     @IsEmail()
     email: string;
-
-    @IsOptional()
-    @IsString()
-    actual?: string;
 }

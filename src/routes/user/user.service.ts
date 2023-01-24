@@ -36,8 +36,9 @@ export class UserService {
 
     const createdUser = await this.prisma.user.create({
       data: {
-        first_name: data.firstName,
-        last_name: data.lastName,
+        name: data.name,
+        social_name: data.socialName,
+        state: data.state,
         company_name: data.companyName,
         email: data.email,
         pass: data.pass,
@@ -79,9 +80,8 @@ export class UserService {
     const users = await this.prisma.user.findMany({
       select: {
         id: true,
-        first_name: true,
+        name: true,
         company_name: true,
-        is_admin: false
       }
     });
 
@@ -97,8 +97,9 @@ export class UserService {
       where: {id: data.id},
       data: {
         email: data.email || undefined,
-        first_name: data.firstName || undefined,
-        last_name: data.lastName || undefined,
+        name: data.name || undefined,
+        state: data.state || undefined,
+        social_name: data.socialName || undefined,
         company_name: data.companyName || undefined
       }
     });
@@ -130,8 +131,13 @@ export class UserService {
   }
 
   public async remove(id: string) {
-    await this.prisma.user.delete({
-      where: {id}
+    await this.prisma.user.update({
+      where: {
+        id
+      },
+      data: {
+        status: false
+      }
     });
 
     return {

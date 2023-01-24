@@ -18,16 +18,18 @@ export class DpoService {
 
     await this.updateActualDpo();
 
-    const createdDpo = await this.prisma.dpo.create({
+    await this.prisma.dpo.create({
       data: {
-        first_name: data.firstName,
-        last_name: data.lastName,
+        name: data.name,
+        social_name: data.socialName,
         email: data.email,
         user_id: data.userId
       }
     });
 
-    return createdDpo;
+    return {
+      msg: "DPO registrado"
+    };
   }
 
   private async updateActualDpo() {
@@ -48,7 +50,7 @@ export class DpoService {
       },
       select: {
         id: true,
-        first_name: true,
+        social_name: true,
         user_id: true,
         email: true
       }
@@ -67,15 +69,15 @@ export class DpoService {
         id: data.id
       },
       data:{
-        first_name: data.firstName || undefined,
-        last_name: data.lastName || undefined,
+        name: data.name || undefined,
+        social_name: data.socialName || undefined,
         email: data.email || undefined,
         user_id: data.userId || undefined
       }
     });
 
     return {
-      msg: "Email Updated"
+      msg: "Data Updated"
     }
   }
 }
