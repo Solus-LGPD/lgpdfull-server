@@ -2,6 +2,7 @@ import {
     IsNotEmpty, 
     IsEmail, 
     IsString,
+    IsBoolean,
 } from "class-validator";
 
 export class CreateDpoDto {
@@ -19,7 +20,7 @@ export class CreateDpoDto {
     socialName: string;
     
     @IsNotEmpty()
-    @IsString()
+    @IsBoolean()
     naturalPerson: boolean;
 
     @IsNotEmpty()
