@@ -54,11 +54,15 @@ export class MappingService {
       select: {
         tag_name: true,
         created_at: true,
-        updated_at: true
+        updated_at: true,
+        dpo_id: true,
+        sectorId: true
       }
     });
 
-    return maps;
+    return {
+      ...maps
+    };
   }
 
   public async findOne(updateMappingDto: UpdateMappingDto) {
@@ -70,9 +74,33 @@ export class MappingService {
       where:{
         id: data.id
       }
+    });
+
+    const dpoName = await this.prisma.dpo.findFirst({
+      where:{
+        id: data.dpoId
+      },
+      select: {
+        social_name: true
+      }
+    });
+
+    const sectorName = await this.prisma.sector.findFirst({
+      where:{
+        id: data.sectorId
+      },
+      select:{
+        tag_name: true
+      }
     })
 
-    return map;
+    const dataMap = {
+      ...map,
+      ...dpoName,
+      sectorName: sectorName.tag_name
+    }
+    
+    return dataMap;
   }
 
   public async update(updateMappingDto: UpdateMappingDto) {
