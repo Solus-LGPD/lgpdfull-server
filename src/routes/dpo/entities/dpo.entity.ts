@@ -1,7 +1,8 @@
 export class Dpo {
     id?: string;
-    firstName: string;
-    lastName: string;
+    name: string;
+    socialName: string;
+    naturalPerson;
     email: string;
     userId: string;
     actual?: boolean;

@@ -22,12 +22,14 @@ export class UserService {
       throw new BadRequestException({msg: "E-mail Already Registered"})
     }
 
-    const password = generator.generate({
+    /*const password = generator.generate({
       length: 8,
       numbers: true,
       symbols: true,
       strict: true
-    });
+    });*/
+    //retirar o de baixo para produção e retirar o comentario de cima
+    const password = "Solus@54869";
     
     const data = {
       ...createUserDto,
@@ -45,8 +47,8 @@ export class UserService {
       }
     })
 
-    createdUser.pass = undefined;
-
+    //createdUser.pass = undefined;
+    /*
     const transport = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port:  465,
@@ -71,7 +73,7 @@ export class UserService {
     })
     .catch((err) => {
         console.log('Erro no envio');
-    })
+    })*/
 
     return createdUser;
   }

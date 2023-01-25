@@ -22,6 +22,7 @@ export class DpoService {
       data: {
         name: data.name,
         social_name: data.socialName,
+        natural_person: data.naturalPerson,
         email: data.email,
         user_id: data.userId
       }

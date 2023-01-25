@@ -29,14 +29,14 @@ model User {
 }
 
 model Dpo {
-  id          String  @id @default(cuid())
-  name        String
-  social_name String
-  actual      Boolean @default(true)
-
-  email      String
-  created_at DateTime @default(now())
-  user_id    String
+  id             String   @id @default(cuid())
+  name           String
+  social_name    String
+  actual         Boolean  @default(true)
+  natural_person Boolean
+  email          String
+  created_at     DateTime @default(now())
+  user_id        String
 
   Data_mapping dataMapping[]
 
@@ -46,13 +46,12 @@ model Dpo {
 }
 
 model dataMapping {
-  id         String   @id @default(cuid())
-  dpo_id     String
-  user_id    String
-  sectorId   String
-  created_at DateTime @default(now())
-  updated_at DateTime
-
+  id             String   @id @default(cuid())
+  dpo_id         String
+  user_id        String
+  sectorId       String
+  created_at     DateTime @default(now())
+  updated_at     DateTime
   tag_name       String
   source_data    String
   colleted_data  String
@@ -73,9 +72,8 @@ model dataMapping {
 }
 
 model Sector {
-  id      String @id @default(cuid())
-  user_id String
-
+  id       String @id @default(cuid())
+  user_id  String
   tag_name String
 
   Data_mapping dataMapping[]

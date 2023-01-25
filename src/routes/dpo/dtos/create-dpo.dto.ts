@@ -17,6 +17,10 @@ export class CreateDpoDto {
     @IsNotEmpty()
     @IsString()
     socialName: string;
+    
+    @IsNotEmpty()
+    @IsString()
+    naturalPerson: boolean;
 
     @IsNotEmpty()
     @IsString()
