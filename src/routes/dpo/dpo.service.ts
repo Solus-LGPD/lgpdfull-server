@@ -44,6 +44,17 @@ export class DpoService {
     })
   }
 
+  public async findOne(findDpoDto: FindDpoDto){
+    const dpo = await this.prisma.dpo.findFirst({
+      where: {
+        id: findDpoDto.userId,
+        actual: true
+      }
+    })
+
+    return dpo
+  }
+
   public async findAll(findDpoDto: FindDpoDto) {
     const dpos = await this.prisma.dpo.findMany({
       where: {

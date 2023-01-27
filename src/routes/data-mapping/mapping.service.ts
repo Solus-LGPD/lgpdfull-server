@@ -50,19 +50,10 @@ export class MappingService {
     const maps = await this.prisma.dataMapping.findMany({
       where: {
         user_id: data.userId
-      },
-      select: {
-        tag_name: true,
-        created_at: true,
-        updated_at: true,
-        dpo_id: true,
-        sectorId: true
       }
     });
 
-    return {
-      ...maps
-    };
+    return maps
   }
 
   public async findOne(updateMappingDto: UpdateMappingDto) {

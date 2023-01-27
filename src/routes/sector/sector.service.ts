@@ -35,9 +35,7 @@ export class SectorService {
       }
     });
 
-    return {
-      ...sectors
-    };
+    return sectors
   }
 
   public async findOne(updateSectorDto:UpdateSectorDto) {
