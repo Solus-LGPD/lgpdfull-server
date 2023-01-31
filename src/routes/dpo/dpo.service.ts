@@ -63,8 +63,8 @@ export class DpoService {
       select: {
         id: true,
         social_name: true,
-        user_id: true,
-        email: true
+        natural_person: true,
+        actual: true
       }
     });
 
