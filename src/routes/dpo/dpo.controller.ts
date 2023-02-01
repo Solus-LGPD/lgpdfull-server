@@ -20,7 +20,7 @@ export class DpoController {
 
   @Post('actual')
   findOne(@Body() findDpoDto: FindDpoDto) {
-    return this.dpoService.findAll(findDpoDto);
+    return this.dpoService.findOne(findDpoDto);
   }
 
   @Put('update')

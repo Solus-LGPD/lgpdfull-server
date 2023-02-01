@@ -47,8 +47,14 @@ export class DpoService {
   public async findOne(findDpoDto: FindDpoDto){
     const dpo = await this.prisma.dpo.findFirst({
       where: {
-        id: findDpoDto.userId,
-        actual: true
+        user_id: findDpoDto.userId, AND:{
+          actual: true,
+        }
+      },
+      select: {
+        email: true,
+        name: true,
+        social_name: true
       }
     })
 
