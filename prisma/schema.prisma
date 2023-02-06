@@ -24,6 +24,7 @@ model User {
   Dpo          Dpo[]
   Data_mapping dataMapping[]
   Sector       Sector[]
+  Quiz         Quiz[]
 
   @@map("user")
 }
@@ -80,4 +81,16 @@ model Sector {
   User         User          @relation(fields: [user_id], references: [id])
 
   @@map("sector")
+}
+
+model Quiz {
+  id        String   @id @default(cuid())
+  result    String
+  answers   String
+  userId    String
+  createdAt DateTime @default(now())
+  
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("quiz")
 }

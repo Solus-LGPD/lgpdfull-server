@@ -17,6 +17,11 @@ export class SectorController {
     return this.sectorService.findAll(updateSectorDto);
   }
 
+  @Post('one')
+  findOne(@Body() updateSectorDto: UpdateSectorDto) {
+    return this.sectorService.findOne(updateSectorDto);
+  }
+
   @Put('update')
   update(@Body() updateSectorDto: UpdateSectorDto) {
     return this.sectorService.update( updateSectorDto);

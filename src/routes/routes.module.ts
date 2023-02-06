@@ -5,8 +5,9 @@ import { DpoModule } from './dpo/dpo.module';
 import { UserModule } from './user/user.module';
 import { MappingModule } from './data-mapping/mapping.module';
 import { SectorModule } from './sector/sector.module';
+import { QuizModule } from './quiz/quiz.module';
 
 @Module({
-    imports:[ UserModule, AuthModule, PrismaModule, DpoModule, MappingModule, SectorModule ]
+    imports:[ UserModule, AuthModule, PrismaModule, DpoModule, MappingModule, SectorModule, QuizModule ]
 })
 export class RoutesModule {}

@@ -22,19 +22,16 @@ export class UserService {
       throw new BadRequestException({msg: "E-mail Already Registered"})
     }
 
-    /*const password = generator.generate({
+    const data = {
+      ...createUserDto
+    };
+
+    const password = generator.generate({
       length: 8,
       numbers: true,
       symbols: true,
       strict: true
-    });*/
-    //retirar o de baixo para produção e retirar o comentario de cima
-    const password = "Solus@54869";
-    
-    const data = {
-      ...createUserDto,
-      pass: await bcrypt.hash(password, 10)
-    };
+    });
 
     const createdUser = await this.prisma.user.create({
       data: {
@@ -43,12 +40,12 @@ export class UserService {
         state: data.state,
         company_name: data.companyName,
         email: data.email,
-        pass: data.pass,
+        pass: password,
       }
     })
 
-    //createdUser.pass = undefined;
-    /*
+    createdUser.pass = undefined;
+    
     const transport = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port:  465,
@@ -63,7 +60,7 @@ export class UserService {
       from: "Solus LGPD <solusit2022@gmail.com",
       to: createdUser.email,
       subject: 'Senha de acesso ao sistema LGPDFull',
-      html: sendPasswordEmailTemplate(data.pass, createdUser.email),
+      html: sendPasswordEmailTemplate(password, createdUser.email),
       text: `Nova senha: ${password}`
     })
     .then((response) => {
@@ -73,7 +70,7 @@ export class UserService {
     })
     .catch((err) => {
         console.log('Erro no envio');
-    })*/
+    })
 
     return createdUser;
   }
@@ -117,7 +114,7 @@ export class UserService {
     });
     const isPassValid = await bcrypt.compare(updatePassDto.pass, user.pass);
     if(!isPassValid){
-      throw new BadRequestException({msg: "Está conta não existe"});
+      throw new BadRequestException({msg: "A senha atual está incorreta."});
     }
 
     await this.prisma.user.update({
