@@ -18,16 +18,19 @@ export class DpoService {
 
     await this.updateActualDpo();
 
-    const createdDpo = await this.prisma.dpo.create({
+    await this.prisma.dpo.create({
       data: {
-        first_name: data.firstName,
-        last_name: data.lastName,
+        name: data.name,
+        social_name: data.socialName,
+        natural_person: data.naturalPerson,
         email: data.email,
         user_id: data.userId
       }
     });
 
-    return createdDpo;
+    return {
+      msg: "DPO registrado"
+    };
   }
 
   private async updateActualDpo() {
@@ -41,6 +44,23 @@ export class DpoService {
     })
   }
 
+  public async findOne(findDpoDto: FindDpoDto){
+    const dpo = await this.prisma.dpo.findFirst({
+      where: {
+        user_id: findDpoDto.userId, AND:{
+          actual: true,
+        }
+      },
+      select: {
+        email: true,
+        name: true,
+        social_name: true
+      }
+    })
+
+    return dpo
+  }
+
   public async findAll(findDpoDto: FindDpoDto) {
     const dpos = await this.prisma.dpo.findMany({
       where: {
@@ -48,9 +68,9 @@ export class DpoService {
       },
       select: {
         id: true,
-        first_name: true,
-        user_id: true,
-        email: true
+        social_name: true,
+        natural_person: true,
+        actual: true
       }
     });
 
@@ -67,15 +87,15 @@ export class DpoService {
         id: data.id
       },
       data:{
-        first_name: data.firstName || undefined,
-        last_name: data.lastName || undefined,
+        name: data.name || undefined,
+        social_name: data.socialName || undefined,
         email: data.email || undefined,
         user_id: data.userId || undefined
       }
     });
 
     return {
-      msg: "Email Updated"
+      msg: "Data Updated"
     }
   }
 }

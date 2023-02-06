@@ -1,8 +1,8 @@
 import { 
     IsNotEmpty, 
     IsEmail, 
-    IsOptional,
     IsString,
+    IsBoolean,
 } from "class-validator";
 
 export class CreateDpoDto {
@@ -13,18 +13,18 @@ export class CreateDpoDto {
 
     @IsNotEmpty()
     @IsString()
-    firstName: string;
+    name: string;
 
     @IsNotEmpty()
     @IsString()
-    lastName: string;
+    socialName: string;
+    
+    @IsNotEmpty()
+    @IsBoolean()
+    naturalPerson: boolean;
 
     @IsNotEmpty()
     @IsString()
     @IsEmail()
     email: string;
-
-    @IsOptional()
-    @IsString()
-    actual?: string;
 }

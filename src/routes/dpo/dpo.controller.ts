@@ -18,6 +18,11 @@ export class DpoController {
     return this.dpoService.findAll(findDpoDto);
   }
 
+  @Post('actual')
+  findOne(@Body() findDpoDto: FindDpoDto) {
+    return this.dpoService.findOne(findDpoDto);
+  }
+
   @Put('update')
   UpdateEmail(@Body() updateDpoDto: UpdateDpoDto){
     return this.dpoService.updateData(updateDpoDto);

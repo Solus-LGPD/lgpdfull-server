@@ -1,23 +1,22 @@
 import { 
     IsNotEmpty, 
     IsEmail, 
-    IsOptional,
-    IsString,
-    IsBoolean,
-    Matches,
-    MinLength,
-    MaxLength
+    IsString
 } from "class-validator";
 
 export class CreateUserDto {
     
     @IsNotEmpty()
     @IsString()
-    firstName: string;
+    name: string;
 
     @IsNotEmpty()
     @IsString()
-    lastName: string;
+    socialName: string;
+
+    @IsNotEmpty()
+    @IsString()
+    state: string;
 
     @IsNotEmpty()
     @IsString()
@@ -27,8 +26,4 @@ export class CreateUserDto {
     @IsString()
     @IsEmail()
     email:string;
-
-    @IsOptional()
-    @IsBoolean()
-    isAdmin: boolean;
 }

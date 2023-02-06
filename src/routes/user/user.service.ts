@@ -22,30 +22,30 @@ export class UserService {
       throw new BadRequestException({msg: "E-mail Already Registered"})
     }
 
+    const data = {
+      ...createUserDto
+    };
+
     const password = generator.generate({
       length: 8,
       numbers: true,
       symbols: true,
       strict: true
     });
-    
-    const data = {
-      ...createUserDto,
-      pass: await bcrypt.hash(password, 10)
-    };
 
     const createdUser = await this.prisma.user.create({
       data: {
-        first_name: data.firstName,
-        last_name: data.lastName,
+        name: data.name,
+        social_name: data.socialName,
+        state: data.state,
         company_name: data.companyName,
         email: data.email,
-        pass: data.pass,
+        pass: password,
       }
     })
 
     createdUser.pass = undefined;
-
+    
     const transport = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port:  465,
@@ -59,9 +59,9 @@ export class UserService {
     transport.sendMail({
       from: "Solus LGPD <solusit2022@gmail.com",
       to: createdUser.email,
-      subject: 'Teste E-mail Para Lead ',
-      html: sendPasswordEmailTemplate(data.pass, createdUser.email),
-      text: 'Hello World TESTE TESTE TESTE'
+      subject: 'Senha de acesso ao sistema LGPDFull',
+      html: sendPasswordEmailTemplate(password, createdUser.email),
+      text: `Nova senha: ${password}`
     })
     .then((response) => {
       return {
@@ -79,9 +79,8 @@ export class UserService {
     const users = await this.prisma.user.findMany({
       select: {
         id: true,
-        first_name: true,
+        name: true,
         company_name: true,
-        is_admin: false
       }
     });
 
@@ -97,14 +96,15 @@ export class UserService {
       where: {id: data.id},
       data: {
         email: data.email || undefined,
-        first_name: data.firstName || undefined,
-        last_name: data.lastName || undefined,
+        name: data.name || undefined,
+        state: data.state || undefined,
+        social_name: data.socialName || undefined,
         company_name: data.companyName || undefined
       }
     });
 
     return {
-      msg: "E-mail updated"
+      msg: "Dados foram atualizados"
     }
   }
 
@@ -114,7 +114,7 @@ export class UserService {
     });
     const isPassValid = await bcrypt.compare(updatePassDto.pass, user.pass);
     if(!isPassValid){
-      throw new BadRequestException({msg: "this account doesn't exist"});
+      throw new BadRequestException({msg: "A senha atual está incorreta."});
     }
 
     await this.prisma.user.update({
@@ -130,8 +130,13 @@ export class UserService {
   }
 
   public async remove(id: string) {
-    await this.prisma.user.delete({
-      where: {id}
+    await this.prisma.user.update({
+      where: {
+        id
+      },
+      data: {
+        status: false
+      }
     });
 
     return {
@@ -171,9 +176,9 @@ export class UserService {
     transport.sendMail({
       from: "Solus LGPD <solusit2022@gmail.com",
       to: user.email,
-      subject: 'Teste E-mail Para Lead ',
+      subject: 'Senha de acesso ao Sistema LGPDFull',
       html:sendSavePasswordEmailTemplate(newPassword),
-      text: 'Hello World TESTE TESTE TESTE'
+      text: `Nova senha: ${newPassword}`
     })
     .then((response) => {
       return {

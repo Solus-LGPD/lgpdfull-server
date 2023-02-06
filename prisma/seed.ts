@@ -9,10 +9,10 @@ async function main() {
         create: {
             company_name: 'Solus',
             email: 'botelhocelso99@gmail.com',
-            first_name: 'Solus',
-            last_name: 'IT',
+            name: 'Solus',
+            social_name: 'Solus-IT',
             pass: password,
-            is_admin: true,
+            state: "PA"
         },
         where: {
             email: 'botelhocelso99@gmail.com'
@@ -23,10 +23,10 @@ async function main() {
         create: {
             company_name: 'Solus',
             email: 'marvmms@gmail.com',
-            first_name: 'Solus',
-            last_name: 'IT',
+            name: 'Solus',
+            social_name: 'Solus-IT',
             pass: password,
-            is_admin: true,
+            state: "PA"
         },
         where: {
             email: 'marvmms@gmail.com'
