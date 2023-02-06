@@ -10,3 +10,87 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id           String  @id @default(cuid())
+  name         String
+  social_name  String
+  company_name String
+  email        String  @unique
+  pass         String
+  state        String
+  status       Boolean @default(true)
+
+  Dpo          Dpo[]
+  Data_mapping dataMapping[]
+  Sector       Sector[]
+  Quiz         Quiz[]
+
+  @@map("user")
+}
+
+model Dpo {
+  id             String   @id @default(cuid())
+  name           String
+  social_name    String
+  actual         Boolean  @default(true)
+  natural_person Boolean
+  email          String
+  created_at     DateTime @default(now())
+  user_id        String
+
+  Data_mapping dataMapping[]
+
+  user User @relation(fields: [user_id], references: [id])
+
+  @@map("dpo")
+}
+
+model dataMapping {
+  id             String   @id @default(cuid())
+  dpo_id         String
+  user_id        String
+  sectorId       String
+  created_at     DateTime @default(now())
+  updated_at     DateTime
+  tag_name       String
+  source_data    String
+  colleted_data  String
+  reason_data    String
+  how_storage    String
+  security_data  String
+  deadline_data  String
+  justification  String
+  under_age_data Boolean
+  sensitive_data Boolean
+  controller     String
+
+  User   User    @relation(fields: [user_id], references: [id])
+  Dpo    Dpo     @relation(fields: [dpo_id], references: [id])
+  Sector Sector? @relation(fields: [sectorId], references: [id])
+
+  @@map("data_mapping")
+}
+
+model Sector {
+  id       String @id @default(cuid())
+  user_id  String
+  tag_name String
+
+  Data_mapping dataMapping[]
+  User         User          @relation(fields: [user_id], references: [id])
+
+  @@map("sector")
+}
+
+model Quiz {
+  id        String   @id @default(cuid())
+  result    String
+  answers   String
+  userId    String
+  createdAt DateTime @default(now())
+  
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("quiz")
+}
