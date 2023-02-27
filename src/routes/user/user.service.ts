@@ -29,7 +29,7 @@ export class UserService {
     const password = generator.generate({
       length: 8,
       numbers: true,
-      symbols: true,
+      symbols: false,
       strict: true
     });
 
@@ -40,11 +40,11 @@ export class UserService {
         state: data.state,
         company_name: data.companyName,
         email: data.email,
-        pass: password,
+        pass: await bcrypt.hash(password, 10),
       }
     })
 
-    createdUser.pass = undefined;
+    //createdUser.pass = undefined;
     
     const transport = nodemailer.createTransport({
       host: 'smtp.gmail.com',
@@ -56,7 +56,7 @@ export class UserService {
       }
     })
     
-    transport.sendMail({
+    await transport.sendMail({
       from: "Solus LGPD <solusit2022@gmail.com",
       to: createdUser.email,
       subject: 'Senha de acesso ao sistema LGPDFull',
