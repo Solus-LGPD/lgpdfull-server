@@ -52,6 +52,7 @@ export class DpoService {
         }
       },
       select: {
+        id: true,
         email: true,
         name: true,
         social_name: true
