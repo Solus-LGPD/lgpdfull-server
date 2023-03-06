@@ -53,4 +53,8 @@ export class SectorRepository{
             }
         });
     }
+
+    public findById(id: string){
+        return this.prisma.sector.findUnique({where: {id}})
+    }
 }

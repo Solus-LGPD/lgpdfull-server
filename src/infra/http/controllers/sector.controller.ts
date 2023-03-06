@@ -13,7 +13,7 @@ export class SectorController {
   }
 
   
-  @Get('all')
+  @Get('all/:id')
   findAll(@Param('id') /*userId*/ id: string ) {
     return this.sectorService.findAll(id);
   }

@@ -1,30 +1,35 @@
-import { Controller, Put, Post, Body } from '@nestjs/common';
-import { DpoService } from '../../../routes/dpo/dpo.service';
-import { CreateDpoDto } from '../../../routes/dpo/dtos/create-dpo.dto';
+import { Controller, Put, Post, Body, Get, Param, Patch, HttpCode, Delete } from '@nestjs/common';
+import { DpoService } from 'src/app/services/dpo.service';
+import { CreateDpoDto } from '../dtos/create-dpo.dto';
 import { UpdateDpoDto } from '../dtos/update-dpo.dto';
-import { FindDpoDto } from '../../../routes/dpo/dtos/find-dpo.dto';
 
 @Controller('dpo')
 export class DpoController {
   constructor(private readonly dpoService: DpoService) {}
 
-  @Post('register')
+  @Post()
   create(@Body() createDpoDto: CreateDpoDto) {
     return this.dpoService.create(createDpoDto);
   }
 
-  @Post('all')
-  findAll(@Body() findDpoDto: FindDpoDto) {
-    return this.dpoService.findAll(findDpoDto);
+  @Get('all/:id')
+  findAll(@Param('id') /*userId*/ id: string ) {
+    return this.dpoService.findAll(id);
   }
 
-  @Post('actual')
-  findOne(@Body() findDpoDto: FindDpoDto) {
-    return this.dpoService.findOne(findDpoDto);
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.dpoService.findOne(id);
   }
 
-  @Put('update')
-  UpdateEmail(@Body() updateDpoDto: UpdateDpoDto){
-    return this.dpoService.updateData(updateDpoDto);
+  @Patch(':id')
+  UpdateEmail(@Param('id') id: string, @Body() updateDpoDto: UpdateDpoDto){
+    return this.dpoService.update(id, updateDpoDto);
+  }
+
+  @Delete(':id')
+  @HttpCode(204)
+  remove(@Param('id') id: string) {
+    return this.dpoService.remove(id);
   }
 }

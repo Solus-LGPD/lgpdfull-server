@@ -1,102 +1,51 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/infra/database/prisma/prisma.service';
-import { CreateDpoDto } from './dtos/create-dpo.dto';
-import { FindDpoDto } from './dtos/find-dpo.dto';
+import { DpoRepository } from 'src/infra/database/prisma/repositories/dpo.repository';
+import { UsersRepository } from 'src/infra/database/prisma/repositories/user.repository';
+import { CreateDpoDto } from 'src/infra/http/dtos/create-dpo.dto';
 import { UpdateDpoDto } from '../../infra/http/dtos/update-dpo.dto';
+import { NotFoundError } from '../common/errors/types/NotFoundError';
 
 @Injectable()
 export class DpoService {
 
   constructor(
-    private readonly prisma:PrismaService
-  ){ }
+    private readonly repository: DpoRepository,
+    private readonly userRepository: UsersRepository
+  ){}
 
-  public async create(createDpoDto: CreateDpoDto) {
-    const data = {
-      ...createDpoDto,
-    };
-
-    await this.updateActualDpo();
-
-    await this.prisma.dpo.create({
-      data: {
-        name: data.name,
-        social_name: data.socialName,
-        natural_person: data.naturalPerson,
-        email: data.email,
-        user_id: data.userId
-      }
-    });
-
-    return {
-      msg: "DPO registrado"
-    };
+  public create(createDpoDto: CreateDpoDto) {
+    return this.repository.create(createDpoDto);
   }
 
-  private async updateActualDpo() {
-    await this.prisma.dpo.updateMany({
-      where: {
-        actual: true
-      },
-      data: {
-        actual: false
-      }
-    })
-  }
-
-  public async findOne(findDpoDto: FindDpoDto){
-    const dpo = await this.prisma.dpo.findFirst({
-      where: {
-        user_id: findDpoDto.userId, AND:{
-          actual: true,
-        }
-      },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        social_name: true
-      }
-    })
-
-    return dpo
-  }
-
-  public async findAll(findDpoDto: FindDpoDto) {
-    const dpos = await this.prisma.dpo.findMany({
-      where: {
-        user_id: findDpoDto.userId
-      },
-      select: {
-        id: true,
-        social_name: true,
-        natural_person: true,
-        actual: true
-      }
-    });
-
-    return dpos;
-  }
-
-  public async updateData(updateDpoDto: UpdateDpoDto) {
-    const data = {
-      ...updateDpoDto
+  public async findOne(id: string){
+    if(!(await this.repository.findById(id))){
+      throw new NotFoundError('ID do DPO não encontrado!')
     }
-    
-    await this.prisma.dpo.update({
-      where: {
-        id: data.id
-      },
-      data:{
-        name: data.name || undefined,
-        social_name: data.socialName || undefined,
-        email: data.email || undefined,
-        user_id: data.userId || undefined
-      }
-    });
 
-    return {
-      msg: "Data Updated"
+    return this.repository.findOne(id);
+  }
+
+  public async findAll(id: string) {
+    if(!(await this.userRepository.findById(id))){
+      throw new NotFoundError('ID do usuário não encontrado!')
     }
+
+    return this.repository.findAll(id);
+  }
+
+  public async update(id: string, updateDpoDto: UpdateDpoDto) {
+    if(!(await this.repository.findById(id))){
+      throw new NotFoundError('ID do DPO não encontrado!')
+    }
+
+    return this.repository.update(id, updateDpoDto);
+  }
+
+  public async remove(id: string){
+    if(!(await this.repository.findById(id))){
+      throw new NotFoundError('ID do DPO não encontrado!')
+    }
+
+    return this.repository.remove(id);
   }
 }
