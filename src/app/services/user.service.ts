@@ -4,7 +4,7 @@ import { InsertUserDto } from 'src/infra/http/dtos/insert-db-user.dto';
 import { UsersRepository } from 'src/infra/database/prisma/repositories/user.repository';
 import { ConflictError } from '../common/errors/types/ConflictError';
 import { GeneratePasswordService } from '../adapters/generate-password.service';
-import { EmailService } from '../adapters/email.service';
+import { MailerService } from '../adapters/mailer.service';
 import { EncryptService } from '../adapters/encrypt.service';
 import { NotFoundError } from '../common/errors/types/NotFoundError';
 import { UpdateUserPassDto } from 'src/infra/http/dtos/update-user-pass.dto';
@@ -16,8 +16,8 @@ export class UserService {
   constructor(
     private readonly repository: UsersRepository,
     private readonly passwordGeneratorService: GeneratePasswordService,
-    private readonly emailService: EmailService,
-    private readonly encryptService: EncryptService
+    private readonly mailerService: MailerService,
+    private readonly encryptService: EncryptService,
   ) { }
 
   public async create(createUserDto: CreateUserDto)  {
@@ -34,7 +34,7 @@ export class UserService {
 
     const user = await this.repository.create(insertUserDto);
     
-    await this.emailService.sendPasswordEmail(user.email, pass);
+    await this.mailerService.sendPasswordEmail(user.email, pass);
 
     return user;
   }
@@ -96,7 +96,7 @@ export class UserService {
 
     await this.repository.updateSavePass(user.id, await this.encryptService.encryptPassword(newPass));
 
-    await this.emailService.sendNewPasswordEmail(email, newPass);
+    await this.mailerService.sendNewPasswordEmail(email, newPass);
 
     return {
       message: "Nova senha enviada!"

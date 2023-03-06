@@ -8,7 +8,6 @@ import { PrismaService } from "../prisma.service";
 export class UsersRepository{
     constructor(
         private readonly prisma: PrismaService
-
     ){}
 
     public async create(insertUserDto: InsertUserDto){

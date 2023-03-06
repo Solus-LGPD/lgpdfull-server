@@ -1,8 +1,9 @@
 import { Controller, Get, Post, Body, Patch, Put, Delete, HttpCode, HttpStatus, Param } from '@nestjs/common';
 import { CreateUserDto } from '../dtos/create-user.dto';
-import { IsPublic } from '../../../app/services/auth/decorators/is-public.decorator';
+import { IsPublic } from '../../../app/auth/decorators/is-public.decorator';
 import { UserService } from 'src/app/services/user.service';
 import { UpdateUserDto } from '../dtos/update-user.dto';
+import { UpdateUserPassDto } from '../dtos/update-user-pass.dto';
 
 @Controller('user')
 export class UserController {
@@ -14,26 +15,27 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  @IsPublic()
-  @Put(':email')
-  savePass(@Param('email') email: string) {
-    return this.userService.savePass(email);
-  }
-
   @Get()
   findAll() {
     return this.userService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string){
-    return this.userService.findOne();
+  @IsPublic()
+  @Get(':email')
+  savePass(@Param('email') email: string) {
+    return this.userService.savePass(email);
   }
 
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
-  updateEmail(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.updateUserData(id, updateUserDto);
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(id, updateUserDto);
+  }
+
+  @Patch('update-pass/:id')
+  @HttpCode(HttpStatus.OK)
+  updatePass(@Param('id') id: string, @Body() updateUserPassDto: UpdateUserPassDto) {
+    return this.userService.updatePassword(id, updateUserPassDto);
   }
 
   @Delete(':id')

@@ -1,89 +1,31 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/infra/database/prisma/prisma.service';
 import { CreateSectorDto } from '../../infra/http/dtos/create-sector.dto';
-import { UpdateSectorDto } from './dtos/update-sector.dto';
+import { UpdateSectorDto } from 'src/infra/http/dtos/update-sector.dto';
+import { SectorEntity } from '../entities/sector.entity';
 
 @Injectable()
 export class SectorService {
   constructor(
-    private readonly prisma:PrismaService
+    private readonly repository: SectorService
   ){}
 
-
-  public async create(createSectorDto: CreateSectorDto) {
-    const data = {
-      ...createSectorDto
-    };
-
-    await this.prisma.sector.create({
-      data
-    });
-
-    return {
-      msg:"Sector Created"
-    };
+  public async create(createSectorDto: CreateSectorDto): Promise<SectorEntity> {
+    return this.repository.create(createSectorDto);
   }
 
-  public async findAll(updateSectorDto:UpdateSectorDto) {
-    const data = {
-      ...updateSectorDto
-    };
-
-    const sectors = await this.prisma.sector.findMany({
-      where: {
-        user_id: data.user_id
-      }
-    });
-
-    return sectors
+  public findAll(id: string): Promise<SectorEntity[]> {
+    return this.repository.findAll(id);
   }
 
-  public async findOne(updateSectorDto:UpdateSectorDto) {
-    const data = {
-      ...updateSectorDto
-    }
-
-    const sector = await this.prisma.sector.findUnique({
-      where: {
-        id: data.id
-      }
-    })
-
-    return sector;
+  public findOne(id: string): Promise<SectorEntity> {
+    return this.repository.findOne(id);
   }
 
-  public async update(updateSectorDto:UpdateSectorDto) {
-    const data = {
-      ...updateSectorDto
-    };
-
-    await this.prisma.sector.update({
-      where: {
-        id: data.id
-      },
-      data:{
-        tag_name: data.tag_name
-      }
-    });
-
-    return {
-      msg: 'Atualizado'
-    };
+  public update(id: string, updateSectorDto:UpdateSectorDto): Promise<SectorEntity> {
+    return this.repository.update(id, updateSectorDto);
   }
 
-  public async remove(updateSectorDto:UpdateSectorDto) {
-    const data = {
-      ...updateSectorDto
-    }
-
-    await this.prisma.sector.delete({
-      where:{
-        id: data.id
-      }
-    })
-
-    return {
-      msg: 'Removido'
-    };
+  public async remove(id: string) {
+    await this.repository.remove(id);
   }
 }

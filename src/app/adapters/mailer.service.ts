@@ -1,11 +1,14 @@
 import { Injectable } from "@nestjs/common";
 import * as nodemailer from 'nodemailer';
-import { sendSavePasswordEmailTemplate } from 'src/app/utils/SendSavePasswordTemplate';
-import { sendPasswordEmailTemplate } from 'src/app/utils/SendPasswordTemplate';
 import { ServiceError } from "../common/errors/types/ServiceError";
+import { EmailTemplateService } from "./email-template.service";
 
 @Injectable()
-export class EmailService{
+export class MailerService{
+
+    constructor(
+        private readonly emailTemplate: EmailTemplateService
+    ){}
 
     public async sendPasswordEmail(email: string, password: string){
 
@@ -23,13 +26,14 @@ export class EmailService{
             from: "Solus LGPD <solusit2022@gmail.com",
             to: email,
             subject: 'Senha de acesso ao sistema LGPDFull',
-            html: sendPasswordEmailTemplate(password, email),
+            html: this.emailTemplate.emailRegisterTemplate(password, email),
             text: `Nova senha: ${password}`
         })
         .catch((err) => {
             throw new ServiceError("O Serviço de e-mail está indisponível!")
         })
     }
+
     public async sendNewPasswordEmail(email: string, newPassword: string){
 
         const transport = nodemailer.createTransport({
@@ -47,7 +51,7 @@ export class EmailService{
             from: "Solus LGPD <solusit2022@gmail.com",
             to: email,
             subject: 'Senha de acesso ao Sistema LGPDFull',
-            html:sendSavePasswordEmailTemplate(newPassword),
+            html: this.emailTemplate.savePasswordEmailTemplate(newPassword),
             text: `Nova senha: ${newPassword}`
         })
         .catch((err) => {

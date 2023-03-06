@@ -7,9 +7,9 @@ export class CreateSectorDto {
 
     @IsNotEmpty()
     @IsString()
-    user_id: string
+    userId: string
 
     @IsNotEmpty()
     @IsString()
-    tag_name: string
+    tagName: string
 }
