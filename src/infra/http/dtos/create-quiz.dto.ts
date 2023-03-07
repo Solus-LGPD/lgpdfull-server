@@ -1,8 +1,6 @@
 import { 
     IsNotEmpty, 
-    IsEmail, 
     IsString,
-    IsBoolean,
 } from "class-validator";
 
 export class CreateQuizDto {

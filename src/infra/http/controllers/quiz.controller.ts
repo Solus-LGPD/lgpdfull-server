@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { QuizService } from '../../../routes/quiz/quiz.service';
+import { QuizService } from 'src/app/services/quiz.service';
 import { CreateQuizDto } from '../dtos/create-quiz.dto';
-import { UpdateQuizDto } from '../../../routes/quiz/dtos/update-quiz.dto';
+import { UpdateQuizDto } from '../dtos/update-quiz.dto';
 
 @Controller('quiz')
 export class QuizController {
@@ -20,11 +20,6 @@ export class QuizController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.quizService.findOne(id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateQuizDto: UpdateQuizDto) {
-    return this.quizService.update(id, updateQuizDto);
   }
 
   @Delete(':id')
