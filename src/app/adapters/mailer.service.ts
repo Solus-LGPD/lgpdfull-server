@@ -1,14 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import * as nodemailer from 'nodemailer';
 import { ServiceError } from "../common/errors/types/ServiceError";
-import { EmailTemplateService } from "./email-template.service";
+import { emailRegisterTemplate } from "../utils/templates/mail/email-register-template.utils";
+import { savePasswordEmailTemplate } from "../utils/templates/mail/save-pass-template.utils";
 
 @Injectable()
 export class MailerService{
-
-    constructor(
-        private readonly emailTemplate: EmailTemplateService
-    ){}
 
     public async sendPasswordEmail(email: string, password: string){
 
@@ -26,7 +23,7 @@ export class MailerService{
             from: "Solus LGPD <solusit2022@gmail.com",
             to: email,
             subject: 'Senha de acesso ao sistema LGPDFull',
-            html: this.emailTemplate.emailRegisterTemplate(password, email),
+            html: emailRegisterTemplate(password, email),
             text: `Nova senha: ${password}`
         })
         .catch((err) => {
@@ -51,7 +48,7 @@ export class MailerService{
             from: "Solus LGPD <solusit2022@gmail.com",
             to: email,
             subject: 'Senha de acesso ao Sistema LGPDFull',
-            html: this.emailTemplate.savePasswordEmailTemplate(newPassword),
+            html: savePasswordEmailTemplate(newPassword),
             text: `Nova senha: ${newPassword}`
         })
         .catch((err) => {

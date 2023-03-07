@@ -1,7 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode } from '@nestjs/common';
 import { QuizService } from 'src/app/services/quiz.service';
 import { CreateQuizDto } from '../dtos/create-quiz.dto';
-import { UpdateQuizDto } from '../dtos/update-quiz.dto';
 
 @Controller('quiz')
 export class QuizController {
@@ -23,6 +22,7 @@ export class QuizController {
   }
 
   @Delete(':id')
+  @HttpCode(204)
   remove(@Param('id') id: string) {
     return this.quizService.remove(id);
   }

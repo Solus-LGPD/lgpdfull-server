@@ -1,143 +1,62 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/infra/database/prisma/prisma.service';
+import { DpoRepository } from 'src/infra/database/prisma/repositories/dpo.repository';
+import { MappingRepository } from 'src/infra/database/prisma/repositories/mapping.repository';
+import { SectorRepository } from 'src/infra/database/prisma/repositories/sector.repository';
+import { UsersRepository } from 'src/infra/database/prisma/repositories/user.repository';
+import { UpdateMappingDto } from 'src/infra/http/dtos/update-mapping.dto';
 import { CreateMappingDto } from '../../infra/http/dtos/create-mapping.dto';
-import { FindMappingDto } from './dtos/find-mapping.dto';
-import { UpdateMappingDto } from './dtos/update-mapping.dto';
+import { NotFoundError } from '../common/errors/types/NotFoundError';
 
 @Injectable()
 export class MappingService {
   constructor(
-    private readonly prisma:PrismaService
+    private readonly repository: MappingRepository,
+    private readonly userRepository: UsersRepository,
+    private readonly sectorRepository: SectorRepository,
+    private readonly dpoRepository: DpoRepository
   ){ }
 
   public async create(createMappingDto: CreateMappingDto) {
-    const data = {
-      ...createMappingDto,
-    };
-
-    const now = new Date()
-
-    await this.prisma.dataMapping.create({
-      data: {
-        user_id: data.userId,
-        dpo_id: data.dpoId,
-        sectorId: data.sectorId,
-        colleted_data: data.colletedData,
-        controller: data.controller,
-        deadline_data: data.deadlineData,
-        how_storage: data.howStorage,
-        justification: data.justification,
-        reason_data: data.reasonData,
-        security_data: data.securityData,
-        sensitive_data: data.sensitiveData,
-        source_data: data.sourceData,
-        tag_name: data.tagName,
-        under_age_data: data.underAgeData,
-        updated_at: new Date(now.toLocaleString())
-      }
-    })
-
-    return {
-      msg: "Inventário registrado"
-    };
+    return this.repository.create(createMappingDto);
   }
 
-  public async findAll(findMappingDto: FindMappingDto) {
-    const data = {
-      ...findMappingDto
-    }
-    
-    const maps = await this.prisma.dataMapping.findMany({
-      where: {
-        user_id: data.userId
-      }
-    });
-
-    return maps
-  }
-
-  public async findOne(updateMappingDto: UpdateMappingDto) {
-    const data =  {
-      ...updateMappingDto
+  public async findAll(id: string) {
+    if(!(await this.userRepository.findById(id))){
+      throw new NotFoundError('ID do usuário não encontrado!')
     }
 
-    const map = await this.prisma.dataMapping.findUnique({
-      where:{
-        id: data.id
-      }
-    });
+    return await this.repository.findAll(id);
+  }
 
-    const dpoName = await this.prisma.dpo.findFirst({
-      where:{
-        id: data.dpoId
-      },
-      select: {
-        social_name: true
-      }
-    });
-
-    const sectorName = await this.prisma.sector.findFirst({
-      where:{
-        id: data.sectorId
-      },
-      select:{
-        tag_name: true
-      }
-    })
-
-    const dataMap = {
-      ...map,
-      ...dpoName,
-      sectorName: sectorName.tag_name
+  public async findOne(id: string) {
+    if(!(await this.repository.findById(id))){
+      throw new NotFoundError('ID do inventário não encontrado!')
     }
-    
-    return dataMap;
-  }
 
-  public async update(updateMappingDto: UpdateMappingDto) {
-    const data = {
-      ...updateMappingDto
-    };
-
-    const now = new Date();
-
-    await this.prisma.dataMapping.update({
-      where:{
-        id: data.id
-      },
-      data: {
-        colleted_data: data.colletedData || undefined,
-        controller: data.controller || undefined,
-        deadline_data: data.deadlineData || undefined,
-        how_storage: data.howStorage || undefined,
-        justification: data.justification || undefined,
-        reason_data: data.reasonData || undefined,
-        security_data: data.securityData || undefined,
-        sensitive_data: data.sensitiveData || undefined,
-        source_data: data.sourceData || undefined,
-        tag_name: data.tagName || undefined,
-        under_age_data: data.underAgeData || undefined,
-        updated_at: new Date(now.toLocaleString())
-    }})
-    
-    return {
-      msg: "Inventário atualizado"
-    };
-  }
-
-  public async remove(updateMappingDto: UpdateMappingDto) {
-    const data = {
-      ...updateMappingDto
-    };
-
-    await this.prisma.dataMapping.delete({
-      where:{
-        id: data.id
-      }
-    })
+    const dataMap = await this.repository.findOne(id);
+    const sector = await this.sectorRepository.findById(dataMap.sectorId);
+    const dpo = await this.dpoRepository.findById(dataMap.dpoId);
 
     return {
-      msg: "Inventário Removido"
-    };
+      ...dataMap,
+      sectorName: sector.tagName,
+      dpoName: dpo.name
+    }
+  }
+
+  public async update(id: string, updateMappingDto: UpdateMappingDto) {
+    if(!(await this.repository.findById(id))){
+      throw new NotFoundError('ID do inventário não encontrado!')
+    }
+
+    return await this.repository.update(id, updateMappingDto);
+  }
+
+  public async remove(id: string) {
+    if(!(await this.repository.findById(id))){
+      throw new NotFoundError('ID do inventário não encontrado!')
+    }
+
+    return await this.repository.remove(id);
   }
 }

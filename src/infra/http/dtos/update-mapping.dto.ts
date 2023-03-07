@@ -5,8 +5,4 @@ import {
     IsString
 } from "class-validator";
 
-export class UpdateMappingDto extends PartialType(CreateMappingDto) {
-    @IsNotEmpty()
-    @IsString()
-    id:string;
-}
+export class UpdateMappingDto extends PartialType(CreateMappingDto) {}

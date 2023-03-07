@@ -15,7 +15,7 @@ export class CreateMappingDto {
 
     @IsNotEmpty()
     @IsString()
-    sectorId
+    sectorId: string;
 
     @IsNotEmpty()
     @IsString()

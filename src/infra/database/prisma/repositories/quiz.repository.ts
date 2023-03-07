@@ -53,5 +53,9 @@ export class QuizRepository {
             id
           }
         });
-      }
+    }
+
+    public findById(id: string){
+      return this.prisma.quiz.findUnique({where: {id}})
+    }
 }

@@ -1,35 +1,35 @@
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
-import { MappingService } from '../../../routes/data-mapping/mapping.service';
+import { Controller, Get, Post, Body, Put, Param, Delete, Patch, HttpCode } from '@nestjs/common';
+import { MappingService } from 'src/app/services/mapping.service';
 import { CreateMappingDto } from '../dtos/create-mapping.dto';
-import { UpdateMappingDto } from '../../../routes/data-mapping/dtos/update-mapping.dto';
-import { FindMappingDto } from '../../../routes/data-mapping/dtos/find-mapping.dto';
+import { UpdateMappingDto } from '../dtos/update-mapping.dto';
 
 @Controller('mapping')
 export class MappingController {
   constructor(private readonly mappingService: MappingService) {}
 
-  @Post('register')
+  @Post()
   create(@Body() createMappingDto: CreateMappingDto) {
     return this.mappingService.create(createMappingDto);
   }
 
-  @Post('all')
-  findAll(@Body() findMappingDto: FindMappingDto) {
-    return this.mappingService.findAll(findMappingDto);
+  @Get('all/:id')
+  findAll(@Param('id') /*userId*/ id: string) {
+    return this.mappingService.findAll(id);
   }
 
-  @Post('one')
-  findOne(@Body() updateMappingDto: UpdateMappingDto) {
-    return this.mappingService.findOne(updateMappingDto);
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.mappingService.findOne(id);
   }
 
-  @Put('update')
-  update(@Body() updateMappingDto: UpdateMappingDto) {
-    return this.mappingService.update(updateMappingDto);
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateMappingDto: UpdateMappingDto) {
+    return this.mappingService.update(id, updateMappingDto);
   }
 
-  @Delete('remove')
-  remove(@Body() updateMappingDto: UpdateMappingDto) {
-    return this.mappingService.remove(updateMappingDto);
+  @Delete(':id')
+  @HttpCode(204)
+  remove(@Param('id') id: string) {
+    return this.mappingService.remove(id);
   }
 }
