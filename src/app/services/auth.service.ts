@@ -5,7 +5,7 @@ import { UserToken } from '../auth/models/UserToken';
 import { UserEntity } from 'src/app/entities/user.entity';
 import { UsersRepository } from 'src/infra/database/prisma/repositories/user.repository';
 import { EncryptService } from 'src/app/adapters/encrypt.service';
-import { ConflictError } from 'src/app/common/errors/types/ConflictError';
+import { UnauthorizedError } from '../common/errors/types/UnauthorizedError';
 
 @Injectable()
 export class AuthService {
@@ -47,6 +47,6 @@ export class AuthService {
             }
         }
 
-        throw new ConflictError('Email ou senha estão incorretos.');
+        throw new UnauthorizedError('Email ou senha estão incorretos.');
     }
 }
