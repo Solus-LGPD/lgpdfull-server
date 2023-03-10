@@ -1,20 +1,21 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from '../../infra/http/dtos/create-user.dto';
 import { InsertUserDto } from 'src/infra/http/dtos/insert-db-user.dto';
-import { UsersRepository } from 'src/infra/database/prisma/repositories/user.repository';
+import { UserPrismaRepository } from 'src/infra/database/prisma/repositories/user-prisma.repository';
 import { ConflictError } from '../common/errors/types/ConflictError';
-import { GeneratePasswordService } from '../adapters/generate-password.service';
-import { MailerService } from '../adapters/mailer.service';
-import { EncryptService } from '../adapters/encrypt.service';
+import { GeneratePasswordService } from '../../infra/adapters/generate-password.service';
+import { MailerService } from '../../infra/adapters/mailer.service';
 import { NotFoundError } from '../common/errors/types/NotFoundError';
 import { UpdateUserPassDto } from 'src/infra/http/dtos/update-user-pass.dto';
 import { UpdateUserDto } from 'src/infra/http/dtos/update-user.dto';
+import { UserRepository } from '../ports/repositories/user-port.repository';
+import { EncryptService } from '../ports/encrypt-port.service';
 
 
 @Injectable()
 export class UserService {
   constructor(
-    private readonly repository: UsersRepository,
+    private readonly repository: UserRepository,
     private readonly passwordGeneratorService: GeneratePasswordService,
     private readonly mailerService: MailerService,
     private readonly encryptService: EncryptService,

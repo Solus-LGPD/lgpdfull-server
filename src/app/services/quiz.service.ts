@@ -1,15 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/infra/database/prisma/prisma.service';
 import { CreateQuizDto } from '../../infra/http/dtos/create-quiz.dto';
-import { QuizRepository } from 'src/infra/database/prisma/repositories/quiz.repository';
-import { UsersRepository } from 'src/infra/database/prisma/repositories/user.repository';
 import { NotFoundError } from '../common/errors/types/NotFoundError';
+import { UserRepository } from '../ports/repositories/user-port.repository';
+import { QuizRepository } from '../ports/repositories/quiz-port.repository';
 
 @Injectable()
 export class QuizService {
   constructor(
     private readonly repository: QuizRepository,
-    private readonly userRepository: UsersRepository
+    private readonly userRepository: UserRepository
   ){}
 
   public async create(createQuizDto: CreateQuizDto) {

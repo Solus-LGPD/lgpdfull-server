@@ -1,9 +1,10 @@
 import { Injectable } from "@nestjs/common";
+import { QuizRepository } from "src/app/ports/repositories/quiz-port.repository";
 import { CreateQuizDto } from "src/infra/http/dtos/create-quiz.dto";
 import { PrismaService } from "../prisma.service";
 
 @Injectable()
-export class QuizRepository {
+export class QuizPrismaRepository implements QuizRepository{
     constructor(
         private readonly prisma: PrismaService
     ){ }

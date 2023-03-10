@@ -1,10 +1,11 @@
 import { Injectable } from "@nestjs/common";
+import { SectorRepository } from "src/app/ports/repositories/sector-port.repository";
 import { CreateSectorDto } from "src/infra/http/dtos/create-sector.dto";
 import { UpdateSectorDto } from "src/infra/http/dtos/update-sector.dto";
 import { PrismaService } from "../prisma.service";
 
 @Injectable()
-export class SectorRepository{
+export class SectorPrismaRepository implements SectorRepository{
     constructor(
         private readonly prisma: PrismaService
     ){}

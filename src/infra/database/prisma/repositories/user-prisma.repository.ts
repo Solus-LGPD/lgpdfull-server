@@ -1,11 +1,12 @@
 import { Injectable } from "@nestjs/common";
+import { UserRepository } from "src/app/ports/repositories/user-port.repository";
 import { InsertUserDto } from "src/infra/http/dtos/insert-db-user.dto";
 import { UpdateUserPassDto } from "src/infra/http/dtos/update-user-pass.dto";
 import { UpdateUserDto } from "src/infra/http/dtos/update-user.dto";
 import { PrismaService } from "../prisma.service";
 
 @Injectable()
-export class UsersRepository{
+export class UserPrismaRepository implements UserRepository{
     constructor(
         private readonly prisma: PrismaService
     ){}

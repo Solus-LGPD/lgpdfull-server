@@ -2,15 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { CreateSectorDto } from '../../infra/http/dtos/create-sector.dto';
 import { UpdateSectorDto } from 'src/infra/http/dtos/update-sector.dto';
 import { SectorEntity } from '../entities/sector.entity';
-import { UsersRepository } from 'src/infra/database/prisma/repositories/user.repository';
 import { NotFoundError } from '../common/errors/types/NotFoundError';
-import { SectorRepository } from '../../infra/database/prisma/repositories/sector.repository';
+import { UserRepository } from '../ports/repositories/user-port.repository';
+import { SectorRepository } from '../ports/repositories/sector-port.repository';
 
 @Injectable()
 export class SectorService {
   constructor(
     private readonly repository: SectorRepository,
-    private readonly userRepository: UsersRepository
+    private readonly userRepository: UserRepository
   ){}
 
   public create(createSectorDto: CreateSectorDto): Promise<SectorEntity> {

@@ -1,10 +1,11 @@
 import { Injectable } from "@nestjs/common";
+import { DpoRepository } from "src/app/ports/repositories/dpo-port.repository";
 import { CreateDpoDto } from "src/infra/http/dtos/create-dpo.dto";
 import { UpdateDpoDto } from "src/infra/http/dtos/update-dpo.dto";
 import { PrismaService } from "../prisma.service";
 
 @Injectable()
-export class DpoRepository {
+export class DpoPrismaRepository implements DpoRepository{
     constructor(
         private readonly prisma: PrismaService
     ){ }

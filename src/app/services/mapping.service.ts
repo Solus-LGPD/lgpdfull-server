@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { DpoRepository } from 'src/infra/database/prisma/repositories/dpo.repository';
-import { MappingRepository } from 'src/infra/database/prisma/repositories/mapping.repository';
-import { SectorRepository } from 'src/infra/database/prisma/repositories/sector.repository';
-import { UsersRepository } from 'src/infra/database/prisma/repositories/user.repository';
 import { UpdateMappingDto } from 'src/infra/http/dtos/update-mapping.dto';
 import { CreateMappingDto } from '../../infra/http/dtos/create-mapping.dto';
 import { NotFoundError } from '../common/errors/types/NotFoundError';
+import { DpoRepository } from '../ports/repositories/dpo-port.repository';
+import { MappingRepository } from '../ports/repositories/mapping-port.repository';
+import { SectorRepository } from '../ports/repositories/sector-port.repository';
+import { UserRepository } from '../ports/repositories/user-port.repository';
 
 @Injectable()
 export class MappingService {
   constructor(
     private readonly repository: MappingRepository,
-    private readonly userRepository: UsersRepository,
+    private readonly userRepository: UserRepository,
     private readonly sectorRepository: SectorRepository,
     private readonly dpoRepository: DpoRepository
   ){ }

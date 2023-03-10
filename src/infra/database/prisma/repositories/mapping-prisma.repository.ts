@@ -1,10 +1,11 @@
 import { Injectable } from "@nestjs/common";
+import { MappingRepository } from "src/app/ports/repositories/mapping-port.repository";
 import { CreateMappingDto } from "src/infra/http/dtos/create-mapping.dto";
 import { UpdateMappingDto } from "src/infra/http/dtos/update-mapping.dto";
 import { PrismaService } from "../prisma.service";
 
 @Injectable()
-export class MappingRepository {
+export class MappingPrismaRepository implements MappingRepository {
     constructor(
         private readonly prisma: PrismaService
     ){ }

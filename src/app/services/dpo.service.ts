@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { DpoRepository } from 'src/infra/database/prisma/repositories/dpo.repository';
-import { UsersRepository } from 'src/infra/database/prisma/repositories/user.repository';
 import { CreateDpoDto } from 'src/infra/http/dtos/create-dpo.dto';
 import { UpdateDpoDto } from '../../infra/http/dtos/update-dpo.dto';
 import { NotFoundError } from '../common/errors/types/NotFoundError';
+import { DpoRepository } from '../ports/repositories/dpo-port.repository';
+import { UserRepository } from '../ports/repositories/user-port.repository';
 
 @Injectable()
 export class DpoService {
 
   constructor(
     private readonly repository: DpoRepository,
-    private readonly userRepository: UsersRepository
+    private readonly userRepository: UserRepository
   ){}
 
   public create(createDpoDto: CreateDpoDto) {

@@ -3,15 +3,15 @@ import { UserPayload } from '../auth/models/UserPayload';
 import { JwtService } from '@nestjs/jwt';
 import { UserToken } from '../auth/models/UserToken';
 import { UserEntity } from 'src/app/entities/user.entity';
-import { UsersRepository } from 'src/infra/database/prisma/repositories/user.repository';
-import { EncryptService } from 'src/app/adapters/encrypt.service';
 import { UnauthorizedError } from '../common/errors/types/UnauthorizedError';
+import { UserRepository } from '../ports/repositories/user-port.repository';
+import { EncryptService } from '../ports/encrypt-port.service';
 
 @Injectable()
 export class AuthService {
     constructor(
         private readonly jwtService: JwtService,
-        private readonly repository: UsersRepository,
+        private readonly repository: UserRepository,
         private readonly encryptService: EncryptService
     ){}
 
