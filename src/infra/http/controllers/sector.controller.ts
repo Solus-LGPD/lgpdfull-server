@@ -1,5 +1,5 @@
 import { Controller, Post, Body, Delete, Put, Get, Param, HttpCode } from '@nestjs/common';
-import { SectorService } from '../../../app/services/sector.service';
+import { SectorService } from '../../../app/use-cases/sector.service';
 import { CreateSectorDto } from '../dtos/create-sector.dto';
 import { UpdateSectorDto } from '../dtos/update-sector.dto';
 

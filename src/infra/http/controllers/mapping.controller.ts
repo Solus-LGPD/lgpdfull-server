@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, Patch, HttpCode } from '@nestjs/common';
-import { MappingService } from 'src/app/services/mapping.service';
+import { MappingService } from 'src/app/use-cases/mapping.service';
 import { CreateMappingDto } from '../dtos/create-mapping.dto';
 import { UpdateMappingDto } from '../dtos/update-mapping.dto';
 

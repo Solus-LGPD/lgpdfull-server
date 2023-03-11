@@ -1,5 +1,5 @@
 import { Controller, Put, Post, Body, Get, Param, Patch, HttpCode, Delete } from '@nestjs/common';
-import { DpoService } from 'src/app/services/dpo.service';
+import { DpoService } from 'src/app/use-cases/dpo.service';
 import { CreateDpoDto } from '../dtos/create-dpo.dto';
 import { UpdateDpoDto } from '../dtos/update-dpo.dto';
 

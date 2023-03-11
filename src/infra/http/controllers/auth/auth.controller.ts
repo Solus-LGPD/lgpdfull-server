@@ -1,5 +1,5 @@
 import { Request, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
-import { AuthService } from '../../../../app/services/auth.service';
+import { AuthService } from '../../../../app/use-cases/auth.service';
 import { IsPublic } from '../../../../app/auth/decorators/is-public.decorator';
 import { LocalAuthGuard } from '../../../../app/auth/guards/local-auth.guard';
 import { AuthRequest } from '../../../../app/auth/models/AuthRequest';

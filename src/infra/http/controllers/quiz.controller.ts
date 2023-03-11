@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode } from '@nestjs/common';
-import { QuizService } from 'src/app/services/quiz.service';
+import { QuizService } from 'src/app/use-cases/quiz.service';
 import { CreateQuizDto } from '../dtos/create-quiz.dto';
 
 @Controller('quiz')

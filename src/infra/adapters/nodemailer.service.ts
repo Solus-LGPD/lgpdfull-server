@@ -1,11 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import * as nodemailer from 'nodemailer';
+import { MailerService } from "src/app/ports/mailer-port.service";
 import { ServiceError } from "../../app/common/errors/types/ServiceError";
 import { emailRegisterTemplate } from "../utils/templates/mail/email-register-template.utils";
 import { savePasswordEmailTemplate } from "../utils/templates/mail/save-pass-template.utils";
 
 @Injectable()
-export class MailerService{
+export class NodeMailerService implements MailerService{
 
     public async sendPasswordEmail(email: string, password: string){
 
@@ -41,8 +42,7 @@ export class MailerService{
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS
         }
-        })
-      
+        });
 
         await transport.sendMail({
             from: "Solus LGPD <solusit2022@gmail.com",

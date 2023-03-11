@@ -1,23 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from '../../infra/http/dtos/create-user.dto';
 import { InsertUserDto } from 'src/infra/http/dtos/insert-db-user.dto';
-import { UserPrismaRepository } from 'src/infra/database/prisma/repositories/user-prisma.repository';
 import { ConflictError } from '../common/errors/types/ConflictError';
-import { GeneratePasswordService } from '../../infra/adapters/generate-password.service';
-import { MailerService } from '../../infra/adapters/mailer.service';
 import { NotFoundError } from '../common/errors/types/NotFoundError';
 import { UpdateUserPassDto } from 'src/infra/http/dtos/update-user-pass.dto';
 import { UpdateUserDto } from 'src/infra/http/dtos/update-user.dto';
 import { UserRepository } from '../ports/repositories/user-port.repository';
 import { EncryptService } from '../ports/encrypt-port.service';
+import { GeneratePassService } from '../ports/generate-pass-port.service';
+import { MailerService } from '../ports/mailer-port.service';
 
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly repository: UserRepository,
-    private readonly passwordGeneratorService: GeneratePasswordService,
-    private readonly mailerService: MailerService,
+    private readonly generatePassService: GeneratePassService,
+    private readonly nodeMailerService: MailerService,
     private readonly encryptService: EncryptService,
   ) { }
 
@@ -26,7 +25,7 @@ export class UserService {
       throw new ConflictError("Este e-mail já foi registrado!");
     }
 
-    const pass = this.passwordGeneratorService.generate();
+    const pass = this.generatePassService.generate();
 
     const insertUserDto: InsertUserDto = {
       ...createUserDto,
@@ -35,7 +34,7 @@ export class UserService {
 
     const user = await this.repository.create(insertUserDto);
     
-    await this.mailerService.sendPasswordEmail(user.email, pass);
+    await this.nodeMailerService.sendPasswordEmail(user.email, pass);
 
     return user;
   }
@@ -93,11 +92,11 @@ export class UserService {
       throw new ConflictError("E-mail não encontrado!");
     }
 
-    const newPass = this.passwordGeneratorService.generate();
+    const newPass = this.generatePassService.generate();
 
     await this.repository.updateSavePass(user.id, await this.encryptService.encryptPassword(newPass));
 
-    await this.mailerService.sendNewPasswordEmail(email, newPass);
+    await this.nodeMailerService.sendNewPasswordEmail(email, newPass);
 
     return {
       message: "Nova senha enviada!"

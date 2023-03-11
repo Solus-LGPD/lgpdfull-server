@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Put, Delete, HttpCode, HttpStatus, Param } from '@nestjs/common';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { IsPublic } from '../../../app/auth/decorators/is-public.decorator';
-import { UserService } from 'src/app/services/user.service';
+import { UserService } from 'src/app/use-cases/user.service';
 import { UpdateUserDto } from '../dtos/update-user.dto';
 import { UpdateUserPassDto } from '../dtos/update-user-pass.dto';
 

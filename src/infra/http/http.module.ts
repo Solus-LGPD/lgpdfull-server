@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
-import { DpoService } from 'src/app/services/dpo.service';
-import { MappingService } from 'src/app/services/mapping.service';
-import { QuizService } from 'src/app/services/quiz.service';
-import { SectorService } from 'src/app/services/sector.service';
-import { UserService } from 'src/app/services/user.service';
+import { DpoService } from 'src/app/use-cases/dpo.service';
+import { MappingService } from 'src/app/use-cases/mapping.service';
+import { QuizService } from 'src/app/use-cases/quiz.service';
+import { SectorService } from 'src/app/use-cases/sector.service';
+import { UserService } from 'src/app/use-cases/user.service';
 import { AdaptersModule } from '../adapters/adapters.module';
 import { BcryptService } from '../adapters/bcrypt.service';
 import { GeneratePasswordService } from '../adapters/generate-password.service';
-import { MailerService } from '../adapters/mailer.service';
+import { NodeMailerService } from '../adapters/nodemailer.service';
 import { DatabaseModule } from '../database/database.module';
 import { AppController } from './controllers/app.controller';
 import { AuthModule } from './controllers/auth/auth.module';
@@ -33,7 +33,7 @@ import { UserController } from './controllers/user.controller';
         QuizService,
         SectorService,
         UserService,
-        MailerService
+        NodeMailerService
     ]
 })
 export class HttpModule {}
