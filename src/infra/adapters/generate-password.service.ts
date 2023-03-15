@@ -1,11 +1,11 @@
 import { Injectable } from "@nestjs/common";
-import * as generator from 'generate-password';
+import { generate } from 'generate-password';
 
 @Injectable()
 export class GeneratePasswordService{
-    
+
     public generate(): string{
-        const password = generator.generate({
+        const password = generate({
             length: 8,
             numbers: true,
             symbols: false,
