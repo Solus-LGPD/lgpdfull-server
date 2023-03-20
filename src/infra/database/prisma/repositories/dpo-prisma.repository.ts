@@ -24,7 +24,8 @@ export class DpoPrismaRepository implements DpoRepository{
     public async findAll(id: string){
         const dpos = await this.prisma.dpo.findMany({
             where: {
-              userId: id
+              userId: id,
+              status: true
             },
             select: {
               id: true,
@@ -70,7 +71,7 @@ export class DpoPrismaRepository implements DpoRepository{
         await this.prisma.dpo.update({
             where: {id},
             data: {
-                actual: false
+                status: false
             }
         })
     }

@@ -26,7 +26,8 @@ export class MappingPrismaRepository implements MappingRepository {
     public async findAll(id: string) {
         const dataMaps = await this.prisma.dataMapping.findMany({
           where: {
-            userId: id
+            userId: id,
+            status: true
           }
         });
 
@@ -62,11 +63,12 @@ export class MappingPrismaRepository implements MappingRepository {
     }
 
     public async remove(id: string) {
-        await this.prisma.dataMapping.delete({
-          where:{
-            id
-          }
-        });
+        await this.prisma.dataMapping.update({
+            where: {id},
+            data: {
+                status: false
+            }
+        })
     }
 
     public findById(id: string){

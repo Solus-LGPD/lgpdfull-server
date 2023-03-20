@@ -20,7 +20,8 @@ export class SectorPrismaRepository implements SectorRepository{
 
     public async findAll(id: string){
         const sectorsList = await this.prisma.sector.findMany({where: {
-            userId: id
+            userId: id,
+            status: true
         }});
 
         return sectorsList;
@@ -48,11 +49,12 @@ export class SectorPrismaRepository implements SectorRepository{
     }
 
     public async remove(id: string){
-        await this.prisma.sector.delete({
-            where: {
-                id
+        await this.prisma.sector.update({
+            where: {id},
+            data: {
+                status: false
             }
-        });
+        })
     }
 
     public findById(id: string){
