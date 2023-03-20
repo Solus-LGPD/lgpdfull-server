@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { createTransport } from 'nodemailer';
-import { MailerService } from "src/app/ports/mailer-port.service";
+import { MailerService } from "src/app/interfaces/mailer-port.service";
 import { ServiceError } from "../../app/common/errors/types/ServiceError";
 import { emailRegisterTemplate } from "../utils/templates/mail/email-register-template.utils";
 import { savePasswordEmailTemplate } from "../utils/templates/mail/save-pass-template.utils";

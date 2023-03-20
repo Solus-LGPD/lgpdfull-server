@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { QuizRepository } from "src/app/ports/repositories/quiz-port.repository";
+import { QuizRepository } from "src/app/interfaces/repositories/quiz-port.repository";
 import { CreateQuizDto } from "src/infra/http/dtos/create-quiz.dto";
 import { PrismaService } from "../prisma.service";
 

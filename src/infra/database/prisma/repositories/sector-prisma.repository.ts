@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { SectorRepository } from "src/app/ports/repositories/sector-port.repository";
+import { SectorRepository } from "src/app/interfaces/repositories/sector-port.repository";
 import { CreateSectorDto } from "src/infra/http/dtos/create-sector.dto";
 import { UpdateSectorDto } from "src/infra/http/dtos/update-sector.dto";
 import { PrismaService } from "../prisma.service";
@@ -14,7 +14,7 @@ export class SectorPrismaRepository implements SectorRepository{
         const sector = await this.prisma.sector.create({
             data:createSectorDto
         });
-        
+
         return sector;
     }
 

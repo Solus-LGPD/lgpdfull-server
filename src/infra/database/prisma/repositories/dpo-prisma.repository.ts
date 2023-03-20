@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { DpoRepository } from "src/app/ports/repositories/dpo-port.repository";
+import { DpoRepository } from "src/app/interfaces/repositories/dpo-port.repository";
 import { CreateDpoDto } from "src/infra/http/dtos/create-dpo.dto";
 import { UpdateDpoDto } from "src/infra/http/dtos/update-dpo.dto";
 import { PrismaService } from "../prisma.service";
@@ -10,14 +10,14 @@ export class DpoPrismaRepository implements DpoRepository{
         private readonly prisma: PrismaService
     ){ }
 
-    public async create(createDpoDto: CreateDpoDto) {    
-        
+    public async create(createDpoDto: CreateDpoDto) {
+
         await this.updateActualDpo();
-    
+
         const dpo = await this.prisma.dpo.create({
           data: createDpoDto
         });
-    
+
         return dpo;
     }
 
@@ -55,7 +55,7 @@ export class DpoPrismaRepository implements DpoRepository{
         return dpo;
     }
 
-    public async update(id: string, updateDpoDto: UpdateDpoDto){          
+    public async update(id: string, updateDpoDto: UpdateDpoDto){
         const dpo = await this.prisma.dpo.update({
             where: {
                 id

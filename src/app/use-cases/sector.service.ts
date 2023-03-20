@@ -3,8 +3,8 @@ import { CreateSectorDto } from '../../infra/http/dtos/create-sector.dto';
 import { UpdateSectorDto } from 'src/infra/http/dtos/update-sector.dto';
 import { SectorEntity } from '../entities/sector.entity';
 import { NotFoundError } from '../common/errors/types/NotFoundError';
-import { UserRepository } from '../ports/repositories/user-port.repository';
-import { SectorRepository } from '../ports/repositories/sector-port.repository';
+import { UserRepository } from '../interfaces/repositories/user-port.repository';
+import { SectorRepository } from '../interfaces/repositories/sector-port.repository';
 
 @Injectable()
 export class SectorService {

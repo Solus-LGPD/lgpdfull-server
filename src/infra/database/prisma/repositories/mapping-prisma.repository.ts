@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { MappingRepository } from "src/app/ports/repositories/mapping-port.repository";
+import { MappingRepository } from "src/app/interfaces/repositories/mapping-port.repository";
 import { CreateMappingDto } from "src/infra/http/dtos/create-mapping.dto";
 import { UpdateMappingDto } from "src/infra/http/dtos/update-mapping.dto";
 import { PrismaService } from "../prisma.service";
@@ -29,7 +29,7 @@ export class MappingPrismaRepository implements MappingRepository {
             userId: id
           }
         });
-    
+
         return dataMaps;
     }
 
@@ -39,7 +39,7 @@ export class MappingPrismaRepository implements MappingRepository {
             id: id
           }
         });
-        
+
         return dataMap;
     }
 
@@ -50,14 +50,14 @@ export class MappingPrismaRepository implements MappingRepository {
         ...updateMappingDto,
         updated_at: new Date(now.toLocaleString())
       };
-  
+
       const updateDataMap = await this.prisma.dataMapping.update({
         where:{
           id
         },
         data
       });
-        
+
       return updateDataMap;
     }
 

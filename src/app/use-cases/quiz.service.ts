@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CreateQuizDto } from '../../infra/http/dtos/create-quiz.dto';
 import { NotFoundError } from '../common/errors/types/NotFoundError';
-import { UserRepository } from '../ports/repositories/user-port.repository';
-import { QuizRepository } from '../ports/repositories/quiz-port.repository';
+import { UserRepository } from '../interfaces/repositories/user-port.repository';
+import { QuizRepository } from '../interfaces/repositories/quiz-port.repository';
 
 @Injectable()
 export class QuizService {

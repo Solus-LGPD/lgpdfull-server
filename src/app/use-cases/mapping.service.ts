@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { UpdateMappingDto } from 'src/infra/http/dtos/update-mapping.dto';
 import { CreateMappingDto } from '../../infra/http/dtos/create-mapping.dto';
 import { NotFoundError } from '../common/errors/types/NotFoundError';
-import { DpoRepository } from '../ports/repositories/dpo-port.repository';
-import { MappingRepository } from '../ports/repositories/mapping-port.repository';
-import { SectorRepository } from '../ports/repositories/sector-port.repository';
-import { UserRepository } from '../ports/repositories/user-port.repository';
+import { DpoRepository } from '../interfaces/repositories/dpo-port.repository';
+import { MappingRepository } from '../interfaces/repositories/mapping-port.repository';
+import { SectorRepository } from '../interfaces/repositories/sector-port.repository';
+import { UserRepository } from '../interfaces/repositories/user-port.repository';
 
 @Injectable()
 export class MappingService {

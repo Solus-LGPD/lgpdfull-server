@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CreateDpoDto } from 'src/infra/http/dtos/create-dpo.dto';
 import { UpdateDpoDto } from '../../infra/http/dtos/update-dpo.dto';
 import { NotFoundError } from '../common/errors/types/NotFoundError';
-import { DpoRepository } from '../ports/repositories/dpo-port.repository';
-import { UserRepository } from '../ports/repositories/user-port.repository';
+import { DpoRepository } from '../interfaces/repositories/dpo-port.repository';
+import { UserRepository } from '../interfaces/repositories/user-port.repository';
 
 @Injectable()
 export class DpoService {
