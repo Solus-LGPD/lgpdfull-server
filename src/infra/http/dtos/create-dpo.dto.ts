@@ -1,6 +1,6 @@
-import { 
-    IsNotEmpty, 
-    IsEmail, 
+import {
+    IsNotEmpty,
+    IsEmail,
     IsString,
     IsBoolean,
 } from "class-validator";
@@ -18,13 +18,15 @@ export class CreateDpoDto {
     @IsNotEmpty()
     @IsString()
     socialName: string;
-    
+
     @IsNotEmpty()
     @IsBoolean()
     naturalPerson: boolean;
 
     @IsNotEmpty()
     @IsString()
-    @IsEmail()
+    @IsEmail(undefined, {
+        message: "Este e-mail não é válido!"
+    })
     email: string;
 }
