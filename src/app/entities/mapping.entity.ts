@@ -18,4 +18,5 @@ export class MappingEntity implements dataMapping {
     underAgeData: boolean;
     sensitiveData: boolean;
     controller: string;
+    status: boolean | null;
 }

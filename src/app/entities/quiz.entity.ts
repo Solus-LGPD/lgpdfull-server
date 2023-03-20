@@ -6,4 +6,5 @@ export class QuizEntity implements Quiz{
     answers: string;
     userId: string;
     createdAt: Date;
+    status: boolean | null;
 }
