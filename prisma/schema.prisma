@@ -1,96 +1,97 @@
 generator client {
-  provider = "prisma-client-js"
-}
-
-generator erd {
-  provider = "prisma-erd-generator"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 model User {
-  id           String  @id @default(cuid())
-  name         String
-  social_name  String
-  company_name String
-  email        String  @unique
-  pass         String
-  state        String
-  status       Boolean @default(true)
+    id          String   @id @default(cuid())
+    name        String
+    socialName  String
+    isAdmin     Boolean  @default(false)
+    companyName String
+    email       String   @unique
+    pass        String
+    state       String
+    status      Boolean? @default(true)
 
-  Dpo          Dpo[]
-  Data_mapping dataMapping[]
-  Sector       Sector[]
-  Quiz         Quiz[]
+    dpo         Dpo[]
+    dataMapping dataMapping[]
+    sector      Sector[]
+    quiz        Quiz[]
 
-  @@map("user")
+    @@map("user")
 }
 
 model Dpo {
-  id             String   @id @default(cuid())
-  name           String
-  social_name    String
-  actual         Boolean  @default(true)
-  natural_person Boolean
-  email          String
-  created_at     DateTime @default(now())
-  user_id        String
+    id            String   @id @default(cuid())
+    name          String
+    socialName    String
+    actual        Boolean  @default(true)
+    naturalPerson Boolean
+    email         String
+    createdAt     DateTime @default(now())
+    userId        String
+    status        Boolean? @default(true)
 
-  Data_mapping dataMapping[]
+    dataMapping dataMapping[]
 
-  user User @relation(fields: [user_id], references: [id])
+    user User @relation(fields: [userId], references: [id])
 
-  @@map("dpo")
+    @@map("dpo")
 }
 
 model dataMapping {
-  id             String   @id @default(cuid())
-  dpo_id         String
-  user_id        String
-  sectorId       String
-  created_at     DateTime @default(now())
-  updated_at     DateTime
-  tag_name       String
-  source_data    String
-  colleted_data  String
-  reason_data    String
-  how_storage    String
-  security_data  String
-  deadline_data  String
-  justification  String
-  under_age_data Boolean
-  sensitive_data Boolean
-  controller     String
+    id            String   @id @default(cuid())
+    dpoId         String
+    userId        String
+    sectorId      String
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime
+    tagName       String
+    sourceData    String
+    colletedData  String
+    reasonData    String
+    howStorage    String
+    securityData  String
+    deadlineData  String
+    justification String
+    underAgeData  Boolean
+    sensitiveData Boolean
+    controller    String
+    status        Boolean? @default(true)
 
-  User   User    @relation(fields: [user_id], references: [id])
-  Dpo    Dpo     @relation(fields: [dpo_id], references: [id])
-  Sector Sector? @relation(fields: [sectorId], references: [id])
+    user   User    @relation(fields: [userId], references: [id])
+    dpo    Dpo     @relation(fields: [dpoId], references: [id])
+    sector Sector? @relation(fields: [sectorId], references: [id])
 
-  @@map("data_mapping")
+    @@map("data_mapping")
 }
 
 model Sector {
-  id       String @id @default(cuid())
-  user_id  String
-  tag_name String
+    id      String   @id @default(cuid())
+    userId  String
+    tagName String
+    status  Boolean? @default(true)
 
-  Data_mapping dataMapping[]
-  User         User          @relation(fields: [user_id], references: [id])
+    dataMapping dataMapping[]
+    user        User          @relation(fields: [userId], references: [id])
 
-  @@map("sector")
+    @@map("sector")
 }
 
 model Quiz {
-  id        String   @id @default(cuid())
-  result    String
-  answers   String
-  userId    String
-  createdAt DateTime @default(now())
-  
-  user      User     @relation(fields: [userId], references: [id])
+    id        String   @id @default(cuid())
+    result    String
+    answers   String
+    userId    String
+    createdAt DateTime @default(now())
+    status    Boolean? @default(true)
 
-  @@map("quiz")
+    user User @relation(fields: [userId], references: [id])
+
+    @@map("quiz")
 }
