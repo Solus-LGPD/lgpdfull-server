@@ -1,11 +1,11 @@
-import { 
-    IsNotEmpty, 
-    IsEmail, 
+import {
+    IsNotEmpty,
+    IsEmail,
     IsString
 } from "class-validator";
 
 export class CreateUserDto {
-    
+
     @IsNotEmpty()
     @IsString()
     name: string;
@@ -24,6 +24,8 @@ export class CreateUserDto {
 
     @IsNotEmpty()
     @IsString()
-    @IsEmail()
+    @IsEmail(undefined, {
+        message: "Este e-mail não é válido!"
+    })
     email:string;
 }

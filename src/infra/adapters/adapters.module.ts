@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
-import { EncryptService } from "src/app/ports/encrypt-port.service";
-import { GeneratePassService } from "src/app/ports/generate-pass-port.service";
-import { MailerService } from "src/app/ports/mailer-port.service";
+import { EncryptService } from "src/app/interfaces/encrypt-port.service";
+import { GeneratePassService } from "src/app/interfaces/generate-pass-port.service";
+import { MailerService } from "src/app/interfaces/mailer-port.service";
 import { BcryptService } from "./bcrypt.service";
 import { GeneratePasswordService } from "./generate-password.service";
 import { NodeMailerService } from "./nodemailer.service";
@@ -28,4 +28,3 @@ import { NodeMailerService } from "./nodemailer.service";
     ]
   })
 export class AdaptersModule {}
-  

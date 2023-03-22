@@ -10,11 +10,11 @@ import { ServiceInterceptor } from './app/common/errors/interceptors/conflict.in
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  
+
   app.use(helmet());
 
   app.enableCors({
-    origin: '*' //Colocar o Domínio do Front-End quando for para produção
+    origin: '*'
   });
 
   app.useGlobalPipes(

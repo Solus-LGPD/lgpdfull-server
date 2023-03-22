@@ -9,5 +9,5 @@ export class UserEntity implements User {
     email: string;
     pass: string;
     state: string;
-    status: boolean;
+    status: boolean | null;
 }

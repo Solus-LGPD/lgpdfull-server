@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { SectorRepository } from "src/app/ports/repositories/sector-port.repository";
+import { SectorRepository } from "src/app/interfaces/repositories/sector-port.repository";
 import { CreateSectorDto } from "src/infra/http/dtos/create-sector.dto";
 import { UpdateSectorDto } from "src/infra/http/dtos/update-sector.dto";
 import { PrismaService } from "../prisma.service";
@@ -14,13 +14,14 @@ export class SectorPrismaRepository implements SectorRepository{
         const sector = await this.prisma.sector.create({
             data:createSectorDto
         });
-        
+
         return sector;
     }
 
     public async findAll(id: string){
         const sectorsList = await this.prisma.sector.findMany({where: {
-            userId: id
+            userId: id,
+            status: true
         }});
 
         return sectorsList;
@@ -48,11 +49,12 @@ export class SectorPrismaRepository implements SectorRepository{
     }
 
     public async remove(id: string){
-        await this.prisma.sector.delete({
-            where: {
-                id
+        await this.prisma.sector.update({
+            where: {id},
+            data: {
+                status: false
             }
-        });
+        })
     }
 
     public findById(id: string){

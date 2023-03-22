@@ -9,4 +9,5 @@ export class DpoEntity implements Dpo{
     email: string;
     createdAt: Date;
     userId: string;
+    status: boolean | null;
 }

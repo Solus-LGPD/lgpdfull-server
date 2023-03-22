@@ -4,8 +4,8 @@ import { JwtService } from '@nestjs/jwt';
 import { UserToken } from '../auth/models/UserToken';
 import { UserEntity } from 'src/app/entities/user.entity';
 import { UnauthorizedError } from '../common/errors/types/UnauthorizedError';
-import { UserRepository } from '../ports/repositories/user-port.repository';
-import { EncryptService } from '../ports/encrypt-port.service';
+import { UserRepository } from '../interfaces/repositories/user-port.repository';
+import { EncryptService } from '../interfaces/encrypt-port.service';
 
 @Injectable()
 export class AuthService {

@@ -5,10 +5,10 @@ import { ConflictError } from '../common/errors/types/ConflictError';
 import { NotFoundError } from '../common/errors/types/NotFoundError';
 import { UpdateUserPassDto } from 'src/infra/http/dtos/update-user-pass.dto';
 import { UpdateUserDto } from 'src/infra/http/dtos/update-user.dto';
-import { UserRepository } from '../ports/repositories/user-port.repository';
-import { EncryptService } from '../ports/encrypt-port.service';
-import { GeneratePassService } from '../ports/generate-pass-port.service';
-import { MailerService } from '../ports/mailer-port.service';
+import { UserRepository } from '../interfaces/repositories/user-port.repository';
+import { EncryptService } from '../interfaces/encrypt-port.service';
+import { GeneratePassService } from '../interfaces/generate-pass-port.service';
+import { MailerService } from '../interfaces/mailer-port.service';
 
 
 @Injectable()
@@ -33,7 +33,7 @@ export class UserService {
     };
 
     const user = await this.repository.create(insertUserDto);
-    
+
     await this.nodeMailerService.sendPasswordEmail(user.email, pass);
 
     return user;
@@ -61,7 +61,7 @@ export class UserService {
     }
 
     const isPassValid = await this.encryptService.comparePasswords(updateUserPassDto.newPass, user.pass);
-    
+
     if(!isPassValid){
       throw new ConflictError("A senha atual está incorreta.");
     }
@@ -87,7 +87,7 @@ export class UserService {
 
   public async savePass(email: string) {
     const user = await this.repository.findByEmail(email);
-    
+
     if(!user){
       throw new ConflictError("E-mail não encontrado!");
     }

@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { UserRepository } from "src/app/ports/repositories/user-port.repository";
+import { UserRepository } from "src/app/interfaces/repositories/user-port.repository";
 import { InsertUserDto } from "src/infra/http/dtos/insert-db-user.dto";
 import { UpdateUserPassDto } from "src/infra/http/dtos/update-user-pass.dto";
 import { UpdateUserDto } from "src/infra/http/dtos/update-user.dto";
@@ -15,7 +15,7 @@ export class UserPrismaRepository implements UserRepository{
         const user = await this.prisma.user.create({
             data:insertUserDto
         });
-        
+
         return user;
     }
 

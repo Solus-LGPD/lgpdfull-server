@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { QuizRepository } from "src/app/ports/repositories/quiz-port.repository";
+import { QuizRepository } from "src/app/interfaces/repositories/quiz-port.repository";
 import { CreateQuizDto } from "src/infra/http/dtos/create-quiz.dto";
 import { PrismaService } from "../prisma.service";
 
@@ -20,7 +20,8 @@ export class QuizPrismaRepository implements QuizRepository{
     public async findAll(id: string){
         const quizes = await this.prisma.quiz.findMany({
             where: {
-                userId: id
+                userId: id,
+                status: true
             },
             select:{
               id: true,
@@ -49,11 +50,12 @@ export class QuizPrismaRepository implements QuizRepository{
     }
 
     public async remove(id: string) {
-        await this.prisma.quiz.delete({
-          where:{
-            id
-          }
-        });
+        await this.prisma.quiz.update({
+            where: {id},
+            data: {
+                status: false
+            }
+        })
     }
 
     public findById(id: string){
