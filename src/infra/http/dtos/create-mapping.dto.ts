@@ -7,11 +7,11 @@ import {
 export class CreateMappingDto {
     @IsNotEmpty()
     @IsString()
-    userId:string;
+    userId: string;
 
     @IsNotEmpty()
     @IsString()
-    dpoId: string;
+    dpoId: any;
 
     @IsNotEmpty()
     @IsString()
@@ -19,45 +19,45 @@ export class CreateMappingDto {
 
     @IsNotEmpty()
     @IsString()
-    tagName:        string
+    tagName: string;
 
     @IsNotEmpty()
     @IsString()
-    sourceData:     string
+    sourceData: string;
 
     @IsNotEmpty()
     @IsString()
-    colletedData:   string
+    colletedData: string;
 
     @IsNotEmpty()
     @IsString()
-    reasonData:     string
+    reasonData: string;
 
     @IsNotEmpty()
     @IsString()
-    howStorage:     string
+    howStorage: string;
 
     @IsNotEmpty()
     @IsString()
-    securityData:   string
+    securityData: string;
 
     @IsNotEmpty()
     @IsString()
-    deadlineData:   string
+    deadlineData: string;
 
     @IsNotEmpty()
     @IsString()
-    justification:  string
+    justification: string;
 
     @IsNotEmpty()
     @IsBoolean()
-    underAgeData:   boolean
+    underAgeData: boolean;
 
     @IsNotEmpty()
     @IsBoolean()
-    sensitiveData:  boolean
+    sensitiveData: boolean;
 
     @IsNotEmpty()
     @IsString()
-    controller:     string
+    controller: string;
 }
