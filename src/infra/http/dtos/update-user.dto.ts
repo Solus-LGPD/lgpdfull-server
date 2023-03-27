@@ -7,7 +7,4 @@ import {
 
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
-    @IsNotEmpty()
-    @IsString()
-    id:string;
 }

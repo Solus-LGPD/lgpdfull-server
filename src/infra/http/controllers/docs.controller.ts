@@ -2,7 +2,7 @@ import { Controller, Get, Param } from "@nestjs/common";
 import { DocService } from "src/app/use-cases/doc.service";
 
 @Controller('docs')
-export class DpoController {
+export class DocController {
     constructor(private readonly docService: DocService) {}
 
     @Get('datamap/:id')

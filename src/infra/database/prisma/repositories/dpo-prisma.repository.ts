@@ -41,9 +41,7 @@ export class DpoPrismaRepository implements DpoRepository{
     public async findOne(id: string){
         const dpo = await this.prisma.dpo.findFirst({
             where: {
-              userId: id, AND:{
-                actual: true,
-            }
+              userId: id
             },
             select: {
               id: true,
@@ -54,6 +52,20 @@ export class DpoPrismaRepository implements DpoRepository{
         });
 
         return dpo;
+    }
+
+    public async findActual() {
+        return this.prisma.dpo.findFirst({
+            where: {
+                actual: true,
+            },
+            select: {
+              id: true,
+              email: true,
+              name: true,
+              socialName: true
+            }
+        });
     }
 
     public async update(id: string, updateDpoDto: UpdateDpoDto){
