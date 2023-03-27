@@ -6,5 +6,7 @@ import {
     IsString,
 } from "class-validator";
 
+        
+
 
 export class UpdateDpoDto extends PartialType(CreateDpoDto) {}
