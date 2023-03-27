@@ -14,7 +14,8 @@ async function bootstrap() {
   app.use(helmet());
 
   app.enableCors({
-    origin: '*'
+    origin: ['http://localhost:3000', '*'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   });
 
   app.useGlobalPipes(
