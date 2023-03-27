@@ -16,6 +16,12 @@ export abstract class DpoRepository {
         socialName: string;
         email: string;
     } | null>;
+    abstract findActual(): Promise<{
+        name: string;
+        id: string;
+        socialName: string;
+        email: string;
+    } | null>;
     abstract findById(id: string): Promise<DpoEntity | null>;
     abstract update(id: string, updateDpoDto: UpdateDpoDto): Promise<DpoEntity>;
     abstract remove(id: string): Promise<void>;

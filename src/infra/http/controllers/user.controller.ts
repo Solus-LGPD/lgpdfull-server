@@ -8,7 +8,7 @@ import { UpdateUserPassDto } from '../dtos/update-user-pass.dto';
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-  
+
   @IsPublic()
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
@@ -38,8 +38,8 @@ export class UserController {
     return this.userService.updatePassword(id, updateUserPassDto);
   }
 
-  @Delete(':id')
+/*   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.userService.remove(id);
-  }
+  } */
 }

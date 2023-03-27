@@ -14,7 +14,6 @@ export class DocService {
 
     public async getDataMap(id: string){
 
-
         let data = await this.mappingRepository.findById(id);
         const dpoName = await this.dpoRepository.findById(data.dpoId);
         const sectorName = await this.sectorRepository.findById(data.dpoId);
@@ -31,6 +30,5 @@ export class DocService {
             sectorName: sectorName.tagName
         }
     }
-
 
 }

@@ -44,7 +44,7 @@ export class UserService {
   }
 
   public async update(id: string, updateUserDto: UpdateUserDto) {
-    if(await this.repository.findById(id)){
+    if(!await this.repository.findById(id)){
       throw new NotFoundError("ID não encontrado para a atualização!");
     }
 

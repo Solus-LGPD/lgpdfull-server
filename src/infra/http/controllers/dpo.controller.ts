@@ -17,6 +17,11 @@ export class DpoController {
     return this.dpoService.findAll(id);
   }
 
+  @Get('actual/:id')
+  findActual(@Param('id') /*userId*/ id: string ){
+    return this.dpoService.findActual(id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.dpoService.findOne(id);
@@ -27,9 +32,9 @@ export class DpoController {
     return this.dpoService.update(id, updateDpoDto);
   }
 
-  @Delete(':id')
+/*   @Delete(':id')
   @HttpCode(204)
   remove(@Param('id') id: string) {
     return this.dpoService.remove(id);
-  }
+  } */
 }
