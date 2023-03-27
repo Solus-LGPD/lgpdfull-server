@@ -25,6 +25,14 @@ export class DpoService {
     return this.repository.findOne(id);
   }
 
+    public async findActual(id: string) {
+        if(await this.userRepository.findById(id)){
+            throw new NotFoundError('ID do usuário não encontrado!')
+        }
+
+        return this.repository.findActual();
+    }
+
   public async findAll(id: string) {
     if(!(await this.userRepository.findById(id))){
       throw new NotFoundError('ID do usuário não encontrado!')
