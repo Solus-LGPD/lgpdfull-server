@@ -26,8 +26,8 @@ export class UserController {
     return this.userService.savePass(email);
   }
 
-  @Patch('update-user/:id')
-/*   @HttpCode(HttpStatus.OK) */
+  @Patch(':id')
+  @HttpCode(HttpStatus.OK)
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
   }
