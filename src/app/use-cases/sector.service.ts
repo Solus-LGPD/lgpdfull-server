@@ -48,6 +48,8 @@ export class SectorService {
 
     await this.repository.remove(id);
 
-    return "Setor Excluído!";
+    return {
+        message: "Setor Excluído"
+      };
   }
 }

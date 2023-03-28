@@ -54,6 +54,10 @@ export class DpoService {
       throw new NotFoundError('ID do DPO não encontrado!')
     }
 
-    return this.repository.remove(id);
+    await this.repository.remove(id);
+
+    return {
+        message: "Encarregado Desligado!"
+    };
   }
 }
