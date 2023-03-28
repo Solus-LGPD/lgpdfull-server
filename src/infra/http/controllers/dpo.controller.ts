@@ -32,9 +32,8 @@ export class DpoController {
     return this.dpoService.update(id, updateDpoDto);
   }
 
-/*   @Delete(':id')
-  @HttpCode(204)
-  remove(@Param('id') id: string) {
-    return this.dpoService.remove(id);
-  } */
+    @Delete(':id')
+    remove(@Param('id') id: string) {
+        return this.dpoService.remove(id);
+    }
 }

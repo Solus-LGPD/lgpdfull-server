@@ -59,6 +59,8 @@ export class MappingService {
 
     await this.repository.remove(id);
 
-    return "Inventário Excluído";
+    return {
+      message: "Inventário Excluído"
+    };
   }
 }
