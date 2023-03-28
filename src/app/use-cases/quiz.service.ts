@@ -33,6 +33,8 @@ export class QuizService {
     if(!(await this.repository.findById(id))){
       throw new NotFoundError('ID do quiz não encontrado!')
     }
-    return this.repository.remove(id);
+    await this.repository.remove(id);
+
+    return "Quiz Excluído!";
   }
 }

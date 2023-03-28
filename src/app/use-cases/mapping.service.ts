@@ -57,6 +57,8 @@ export class MappingService {
       throw new NotFoundError('ID do inventário não encontrado!')
     }
 
-    return await this.repository.remove(id);
+    await this.repository.remove(id);
+
+    return "Inventário Excluído";
   }
 }
