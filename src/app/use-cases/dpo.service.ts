@@ -26,7 +26,7 @@ export class DpoService {
   }
 
     public async findActual(id: string) {
-        if(await this.userRepository.findById(id)){
+        if(!await this.userRepository.findById(id)){
             throw new NotFoundError('ID do usuário não encontrado!')
         }
 

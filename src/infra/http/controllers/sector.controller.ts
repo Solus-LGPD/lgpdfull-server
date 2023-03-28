@@ -28,7 +28,7 @@ export class SectorController {
   }
 
   @Delete(':id')
-  @HttpCode(204)
+  // @HttpCode(204)
   remove(@Param('id') id: string) {
     return this.sectorService.remove(id);
   }

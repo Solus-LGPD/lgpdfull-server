@@ -47,5 +47,9 @@ export class SectorService {
     }
 
     await this.repository.remove(id);
+    
+    return  {
+      msg: "Setor Deletado!"
+    }
   }
 }
