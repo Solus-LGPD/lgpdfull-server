@@ -35,6 +35,8 @@ export class QuizService {
     }
     await this.repository.remove(id);
 
-    return "Quiz Excluído!";
+    return {
+        message: "Quiz Excluído"
+      };
   }
 }
