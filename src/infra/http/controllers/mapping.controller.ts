@@ -28,7 +28,6 @@ export class MappingController {
   }
 
   @Delete(':id')
-  @HttpCode(204)
   remove(@Param('id') id: string) {
     return this.mappingService.remove(id);
   }
