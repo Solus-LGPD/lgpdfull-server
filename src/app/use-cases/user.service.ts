@@ -10,7 +10,6 @@ import { EncryptService } from '../interfaces/encrypt-port.service';
 import { GeneratePassService } from '../interfaces/generate-pass-port.service';
 import { MailerService } from '../interfaces/mailer-port.service';
 
-
 @Injectable()
 export class UserService {
   constructor(
@@ -60,7 +59,7 @@ export class UserService {
       throw new NotFoundError("ID não encontrado para a atualização!");
     }
 
-    const isPassValid = await this.encryptService.comparePasswords(updateUserPassDto.newPass, user.pass);
+    const isPassValid = await this.encryptService.comparePasswords(updateUserPassDto.actualPass, user.pass);
 
     if(!isPassValid){
       throw new ConflictError("A senha atual está incorreta.");
@@ -71,7 +70,7 @@ export class UserService {
     await this.repository.updatePass(id, pass);
 
     return {
-      message: "Senha alterada!"
+      message: "Senha alterada!",
     };
   }
 
