@@ -53,10 +53,12 @@ export class UserPrismaRepository implements UserRepository{
         return user;
     }
 
-    public async updatePass(id: string, updateUserPassDto: UpdateUserPassDto){
+    public async updatePass(id: string, pass: string){
         await this.prisma.user.update({
             where: {id},
-            data: updateUserPassDto,
+            data: {
+                pass
+            },
         });
     }
 

@@ -9,7 +9,7 @@ export abstract class UserRepository {
     abstract findById(id: string): Promise<UserEntity | null>;
     abstract findByEmail(email: string): Promise<UserEntity | null>;
     abstract update(id: string, updateUserDto: UpdateUserDto): Promise<{name: string; companyName: string; id: string;}>;
-    abstract updatePass(id: string, updateUserPassDto: UpdateUserPassDto): Promise<void>;
+    abstract updatePass(id: string, pass: string): Promise<void>;
     abstract updateSavePass(id: string, newPass: string): Promise<void>;
     abstract remove(id: string): Promise<void>;
 }

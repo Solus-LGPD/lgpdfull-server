@@ -66,7 +66,9 @@ export class UserService {
       throw new ConflictError("A senha atual está incorreta.");
     }
 
-    await this.repository.updatePass(id, updateUserPassDto);
+    const pass = await this.encryptService.encryptPassword(updateUserPassDto.newPass);
+
+    await this.repository.updatePass(id, pass);
 
     return {
       message: "Senha alterada!"
