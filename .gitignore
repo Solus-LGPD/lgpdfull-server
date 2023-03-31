@@ -10,10 +10,14 @@ pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
+
+# Env
 .env
 
-#DockerDb
-.docker/dbdata
+# Docker
+.docker/
+docker-compose.yml
+Dockerfile
 
 # OS
 .DS_Store
