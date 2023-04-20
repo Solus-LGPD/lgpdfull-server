@@ -10,6 +10,8 @@ import { MappingPrismaRepository } from './prisma/repositories/mapping-prisma.re
 import { QuizPrismaRepository } from './prisma/repositories/quiz-prisma.repository';
 import { SectorPrismaRepository } from './prisma/repositories/sector-prisma.repository';
 import { UserPrismaRepository } from './prisma/repositories/user-prisma.repository';
+import { ProgressionRepository } from 'src/app/interfaces/repositories/progression-port.repository';
+import { ProgressionPrismaRepository } from './prisma/repositories/progression-prisma.repository';
 
 @Module({
   providers: [
@@ -33,6 +35,10 @@ import { UserPrismaRepository } from './prisma/repositories/user-prisma.reposito
     {
       provide: UserRepository,
       useClass: UserPrismaRepository
+    },
+    {
+      provide: ProgressionRepository,
+      useClass: ProgressionPrismaRepository
     }
   ],
   exports: [
@@ -40,7 +46,8 @@ import { UserPrismaRepository } from './prisma/repositories/user-prisma.reposito
     MappingRepository,
     QuizRepository,
     SectorRepository,
-    UserRepository
+    UserRepository,
+    ProgressionRepository
   ]
 })
 export class DatabaseModule {}

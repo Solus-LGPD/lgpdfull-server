@@ -18,11 +18,24 @@ model User {
     state       String
     status      Boolean? @default(true)
 
-    dpo         Dpo[]
-    dataMapping dataMapping[]
-    sector      Sector[]
-    quiz        Quiz[]
-    progression Progression[]
+    dpo                    Dpo[]
+    dataMapping            DataMapping[]
+    sector                 Sector[]
+    quiz                   Quiz[]
+    progression            Progression[]
+    ripd                   RIPD[]
+    lia                    LIA[]
+    incidents              Incidents[]
+    AccessControl          AccessControl[]
+    StorageData            StorageData[]
+    ComunicationSecurity   ComunicationSecurity[]
+    VunerabilityManagement VunerabilityManagement[]
+    MobileDevices          MobileDevices[]
+    CloudService           CloudService[]
+    Cookies                Cookies[]
+    SecurityPolicy         SecurityPolicy[]
+    Training               Training[]
+    Contracts              Contracts[]
 
     @@map("user")
 }
@@ -34,18 +47,21 @@ model Dpo {
     actual        Boolean  @default(true)
     naturalPerson Boolean
     email         String
+    phone         String
     createdAt     DateTime @default(now())
     userId        String
     status        Boolean? @default(true)
 
-    dataMapping dataMapping[]
+    dataMapping DataMapping[]
+    lia         LIA[]
 
-    user User @relation(fields: [userId], references: [id])
+    user      User        @relation(fields: [userId], references: [id])
+    incidents Incidents[]
 
     @@map("dpo")
 }
 
-model dataMapping {
+model DataMapping {
     id            String   @id @default(cuid())
     dpoId         String
     userId        String
@@ -63,11 +79,13 @@ model dataMapping {
     underAgeData  Boolean
     sensitiveData Boolean
     controller    String
+    images        String?
     status        Boolean? @default(true)
 
     user   User    @relation(fields: [userId], references: [id])
     dpo    Dpo     @relation(fields: [dpoId], references: [id])
     sector Sector? @relation(fields: [sectorId], references: [id])
+    RIPD   RIPD[]
 
     @@map("data_mapping")
 }
@@ -78,7 +96,7 @@ model Sector {
     tagName String
     status  Boolean? @default(true)
 
-    dataMapping dataMapping[]
+    dataMapping DataMapping[]
     user        User          @relation(fields: [userId], references: [id])
 
     @@map("sector")
@@ -97,12 +115,212 @@ model Quiz {
     @@map("quiz")
 }
 
-model Progression{
-    id String @id @default(cuid())
+model Progression {
+    id               String   @id @default(cuid())
     arrayProgression String?
-    userId    String
+    userId           String   @unique
+    status           Boolean? @default(true)
 
     user User @relation(fields: [userId], references: [id])
 
     @@map("progression")
 }
+
+model RIPD {
+    id            String   @id @default(cuid())
+    companyName   String
+    mappingName   String
+    dpoName       String
+    justification String
+    colletedData  String
+    sourceData    String
+    controller    String
+    securityData  String
+    deadlineData  String
+    userId        String
+    mappingId     String
+    status        Boolean? @default(true)
+
+    user        User        @relation(fields: [userId], references: [id])
+    dataMapping DataMapping @relation(fields: [mappingId], references: [id])
+
+    @@map("ripd")
+}
+
+model LIA {
+    id            String   @id @default(cuid())
+    liaQuestions  String
+    justification String
+    sector        String
+    deadlineData  String
+    createdAt     DateTime
+    dpoName       String
+    controller    String
+    userId        String
+    dpoId         String
+    status        Boolean? @default(true)
+
+    user User @relation(fields: [userId], references: [id])
+    dpo  Dpo  @relation(fields: [dpoId], references: [id])
+
+    @@map("lia")
+}
+
+model Incidents {
+    id        String   @id @default(cuid())
+    content   String
+    createdAt DateTime
+    dpoName   String
+    condition String
+    userId    String
+    dpoId     String
+    status    Boolean? @default(true)
+
+    user User @relation(fields: [userId], references: [id])
+    dpo  Dpo  @relation(fields: [dpoId], references: [id])
+
+    @@map("incidents")
+}
+
+//Checklist TI
+
+model AccessControl {
+    id        String   @id @default(cuid())
+    updatedAt DateTime
+    check1    String?
+    check2    String?
+    check3    String?
+    check4    String?
+    check5    String?
+    check6    String?
+    check7    String?
+    check8    String?
+    userId    String
+
+    user User @relation(fields: [userId], references: [id])
+
+    @@map("access_control")
+}
+
+model StorageData {
+    id        String   @id @default(cuid())
+    updatedAt DateTime
+    check1    String?
+    check2    String?
+    check3    String?
+    check4    String?
+    check5    String?
+    check6    String?
+    check7    String?
+    check8    String?
+    userId    String
+
+    user User @relation(fields: [userId], references: [id])
+
+    @@map("storage_data")
+}
+
+model ComunicationSecurity {
+    id        String   @id @default(cuid())
+    updatedAt DateTime
+    check1    String?
+    check2    String?
+    check3    String?
+    check4    String?
+    check5    String?
+    userId    String
+
+    user User @relation(fields: [userId], references: [id])
+
+    @@map("comunication_security")
+}
+
+model VunerabilityManagement {
+    id        String   @id @default(cuid())
+    updatedAt DateTime
+    check1    String?
+    check2    String?
+    check3    String?
+    check4    String?
+    check5    String?
+    userId    String
+
+    user User @relation(fields: [userId], references: [id])
+
+    @@map("vunerability_management")
+}
+
+model MobileDevices {
+    id        String   @id @default(cuid())
+    updatedAt DateTime
+    check1    String?
+    check2    String?
+    check3    String?
+    check4    String?
+    userId    String
+
+    user User @relation(fields: [userId], references: [id])
+
+    @@map("mobile_devices")
+}
+
+model CloudService {
+    id        String   @id @default(cuid())
+    updatedAt DateTime
+    check1    String?
+    check2    String?
+    userId    String
+
+    user User @relation(fields: [userId], references: [id])
+
+    @@map("cloud_service")
+}
+
+model Cookies {
+    id        String   @id @default(cuid())
+    updatedAt DateTime
+    check1    String?
+    userId    String
+
+    user User @relation(fields: [userId], references: [id])
+
+    @@map("cookies")
+}
+
+model SecurityPolicy {
+    id        String   @id @default(cuid())
+    updatedAt DateTime
+    check1    String?
+    userId    String
+
+    user User @relation(fields: [userId], references: [id])
+
+    @@map("security_policy")
+}
+
+model Training {
+    id        String   @id @default(cuid())
+    updatedAt DateTime
+    check1    String?
+    check2    String?
+    userId    String
+
+    user User @relation(fields: [userId], references: [id])
+
+    @@map("training")
+}
+
+model Contracts {
+    id        String   @id @default(cuid())
+    updatedAt DateTime
+    check1    String?
+    check2    String?
+    check3    String?
+    userId    String
+
+    user User @relation(fields: [userId], references: [id])
+
+    @@map("contracts")
+}
+
+//
