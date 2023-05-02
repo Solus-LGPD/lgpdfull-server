@@ -7,7 +7,7 @@ import { DatabaseInterceptor } from './app/common/errors/interceptors/database.i
 import { UnauthorizedInterceptor } from './app/common/errors/interceptors/unauthorized.interceptor';
 import { NotFoundInterceptor } from './app/common/errors/interceptors/notfound.interceptor';
 import { ServiceInterceptor } from './app/common/errors/interceptors/conflict.interceptor copy';
-
+// 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
