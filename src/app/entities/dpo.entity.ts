@@ -1,6 +1,6 @@
 import { Dpo } from "@prisma/client"
 
-export class DpoEntity implements Dpo{
+export class DpoEntity {
     id: string;
     name: string;
     socialName: string;

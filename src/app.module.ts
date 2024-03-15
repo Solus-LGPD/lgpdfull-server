@@ -6,9 +6,10 @@ import { DatabaseModule } from './infra/database/database.module';
 
 @Module({
   imports: [HttpModule, DatabaseModule],
-  providers: [{
-    provide: APP_GUARD,
-    useClass: JwtAuthGuard,
-  }]
+  //Está comentado para retirar a verificação de token
+//   providers: [{
+//     provide: APP_GUARD,
+//     useClass: JwtAuthGuard,
+//   }]
 })
 export class AppModule {}

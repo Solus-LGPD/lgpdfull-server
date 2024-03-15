@@ -1,6 +1,5 @@
-import { dataMapping } from "@prisma/client"
 
-export class MappingEntity implements dataMapping {
+export class MappingEntity {
     id: string;
     dpoId: string;
     userId: string;
